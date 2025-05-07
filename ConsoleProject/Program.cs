@@ -1,4 +1,5 @@
 ﻿using Autofac.Extensions.DependencyInjection;
+using Client.Menu;
 using DataAccessLayer.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -31,7 +32,7 @@ namespace ConsoleProject
                     //services.AddScoped<IRpsService, RpsService>();
 
                     // Meny
-                    //services.AddScoped<IMainMenu, MainMenu>();
+                    services.AddScoped<IMainMenu, MainMenu>();
                 })
                 .Build();
 
@@ -40,11 +41,11 @@ namespace ConsoleProject
             var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             DataInitializer.Seed(dbContext);
 
-            Console.WriteLine("Start");
+            Console.WriteLine("In client program.cs...");
             Console.ReadLine();
 
-            //var menu = scope.ServiceProvider.GetRequiredService<IMainMenu>();
-            //await menu.ShowAsync();
+            var mainMenu = scope.ServiceProvider.GetRequiredService<IMainMenu>();
+            mainMenu.Show();
         }
     }
 }
