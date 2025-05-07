@@ -1,9 +1,11 @@
 ﻿using Autofac.Extensions.DependencyInjection;
+using ConsoleProject.Menus;
 using DataAccessLayer.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Service;
 
 namespace ConsoleProject
 {
@@ -26,12 +28,12 @@ namespace ConsoleProject
                         options.UseSqlServer(connectionString));
 
                     // Services
-                    //services.AddScoped<IShapeService, ShapeService>();
-                    //services.AddScoped<ICalculatorService, CalculatorService>();
-                    //services.AddScoped<IRpsService, RpsService>();
+                    services.AddScoped<IShapeService, ShapeService>();
+                    services.AddScoped<ICalculatorService, CalculatorService>();
+                    services.AddScoped<IRpsService, RpsService>();
 
                     // Meny
-                    //services.AddScoped<IMainMenu, MainMenu>();
+                    services.AddScoped<IMainMenu, MainMenu>();
                 })
                 .Build();
 
@@ -40,11 +42,12 @@ namespace ConsoleProject
             var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             DataInitializer.Seed(dbContext);
 
-            Console.WriteLine("Start");
-            Console.ReadLine();
+            Console.Clear();
+            Console.WriteLine("START OK?");
+            Console.ReadKey();
 
-            //var menu = scope.ServiceProvider.GetRequiredService<IMainMenu>();
-            //await menu.ShowAsync();
+            var menu = scope.ServiceProvider.GetRequiredService<IMainMenu>();
+            await menu.ShowAsync();
         }
     }
 }
