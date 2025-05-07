@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DataAccessLayer.Models
+﻿namespace DataAccessLayer.Models
 {
     public class CalculatorOperation
     {
@@ -15,5 +9,4 @@ namespace DataAccessLayer.Models
         public double Result { get; set; }
         public DateTime PerformedAt { get; set; }
     }
-
 }

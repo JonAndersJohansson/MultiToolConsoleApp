@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DataAccessLayer.Models
+﻿namespace DataAccessLayer.Models
 {
     public class RPSgame
     {
@@ -14,5 +8,4 @@ namespace DataAccessLayer.Models
         public string Result { get; set; }       // "Vinst", "Förlust", "Oavgjort"
         public DateTime PlayedAt { get; set; }
     }
-
 }

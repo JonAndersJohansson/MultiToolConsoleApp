@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DataAccessLayer.Models
+﻿namespace DataAccessLayer.Models
 {
     public class ShapeCalculation
     {
@@ -17,5 +11,4 @@ namespace DataAccessLayer.Models
         public double Perimeter { get; set; }
         public DateTime CalculatedAt { get; set; }
     }
-
 }
