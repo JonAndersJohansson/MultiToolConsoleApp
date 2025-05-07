@@ -28,11 +28,11 @@ namespace ConsoleProject.Menus
 
                 var userInput = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()
-                        .Title("[dodgerblue2]  Vad vill du göra idag?[/]")
+                        .Title("[fuchsia]  Vad vill du göra idag?[/]")
                         .PageSize(10)
                         .MoreChoicesText("[grey](Pila upp eller ned)[/]")
                         .AddChoices(new[] {
-                            "Använd Kalkylator", "Använd Formuträknare", "Spela Sten, Sax, Påse", "Avsluta",
+                            "Använd Kalkylator", "Använd Formuträknare", "Spela Sten, Sax, Påse", "[maroon]Avsluta[/]",
                         }));
 
                 switch (userInput)
@@ -44,7 +44,7 @@ namespace ConsoleProject.Menus
                     case "Spela Sten, Sax, Påse":
                         _rpsMenu.ShowMenu(); break;
                     case "Avsluta":
-                        return;
+                        Environment.Exit(0); break;
                     default:
                         Console.WriteLine("Ogiltigt val. Tryck valfri tangent.");
                         Console.ReadKey();
