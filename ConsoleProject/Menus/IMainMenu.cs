@@ -2,6 +2,6 @@
 {
     public interface IMainMenu
     {
-        Task ShowAsync();
+        void Show();
     }
 }

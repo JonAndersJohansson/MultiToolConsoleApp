@@ -1,74 +1,55 @@
-﻿using Service;
+﻿using Calculator;
+using RockPaperScissors;
 using Service.UI;
+using Shapes;
 using Spectre.Console;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ConsoleProject.Menus
 {
     public class MainMenu : IMainMenu
     {
-        private readonly IShapeService _shapeService;
-        private readonly ICalculatorService _calcService;
-        private readonly IRpsService _rpsService;
+        private readonly IShapesMenu _shapeMenu;
+        private readonly ICalculatorMenu _calcMenu;
+        private readonly IRpsMenu _rpsMenu;
 
-        public MainMenu(IShapeService shapeService, ICalculatorService calcService, IRpsService rpsService)
+        public MainMenu(IShapesMenu shapeMenu, ICalculatorMenu calcMenu, IRpsMenu rpsMenu)
         {
-            _shapeService = shapeService;
-            _calcService = calcService;
-            _rpsService = rpsService;
+            _shapeMenu = shapeMenu;
+            _calcMenu = calcMenu;
+            _rpsMenu = rpsMenu;
         }
 
-        public async Task ShowAsync()
+        public void Show()
         {
             while (true)
             {
                 Console.Clear();
                 Graphics.RenderMultiTool();
-                // Ask for the user's favorite fruit
-                var fruit = AnsiConsole.Prompt(
+
+                var userInput = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()
-                        .Title("What's your [green]favorite fruit[/]?")
+                        .Title("[dodgerblue2]  Vad vill du göra idag?[/]")
                         .PageSize(10)
-                        .MoreChoicesText("[grey](Move up and down to reveal more fruits)[/]")
+                        .MoreChoicesText("[grey](Pila upp eller ned)[/]")
                         .AddChoices(new[] {
-                            "Apple", "Apricot", "Avocado",
-                            "Banana", "Blackcurrant", "Blueberry",
-                            "Cherry", "Cloudberry", "Cocunut",
+                            "Använd Kalkylator", "Använd Formuträknare", "Spela Sten, Sax, Påse", "Avsluta",
                         }));
 
-                // Echo the fruit back to the terminal
-                AnsiConsole.WriteLine($"I agree. {fruit} is tasty!");
-                Console.ReadKey();
-
-
-                //Console.Clear();
-                //Console.WriteLine("=== HUVUDMENY ===");
-                //Console.WriteLine("1. Shapes");
-                //Console.WriteLine("2. Miniräknare");
-                //Console.WriteLine("3. Sten, Sax, Påse");
-                //Console.WriteLine("0. Avsluta");
-                //Console.Write("Val: ");
-                //var input = Console.ReadLine();
-
-                //switch (input)
-                //{
-                //    case "1":
-                //        await _shapeService.ShowMenuAsync(); break;
-                //    case "2":
-                //        await _calcService.ShowMenuAsync(); break;
-                //    case "3":
-                //        await _rpsService.ShowMenuAsync(); break;
-                //    case "0":
-                //        return;
-                //    default:
-                //        Console.WriteLine("Ogiltigt val. Tryck valfri tangent.");
-                //        Console.ReadKey();
-                //        break;
-                //}
+                switch (userInput)
+                {
+                    case "Använd Kalkylator":
+                        _calcMenu.ShowMenu(); break;
+                    case "Använd Formuträknare":
+                        _shapeMenu.ShowMenu(); break;
+                    case "Spela Sten, Sax, Påse":
+                        _rpsMenu.ShowMenu(); break;
+                    case "Avsluta":
+                        return;
+                    default:
+                        Console.WriteLine("Ogiltigt val. Tryck valfri tangent.");
+                        Console.ReadKey();
+                        break;
+                }
             }
         }
     }

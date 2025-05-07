@@ -1,11 +1,14 @@
 ﻿using Autofac.Extensions.DependencyInjection;
+using Calculator;
 using ConsoleProject.Menus;
 using DataAccessLayer.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using RockPaperScissors;
 using Service;
+using Shapes;
 
 namespace ConsoleProject
 {
@@ -32,8 +35,11 @@ namespace ConsoleProject
                     services.AddScoped<ICalculatorService, CalculatorService>();
                     services.AddScoped<IRpsService, RpsService>();
 
-                    // Meny
+                    // Menus
                     services.AddScoped<IMainMenu, MainMenu>();
+                    services.AddScoped<ICalculatorMenu, CalculatorMenu>();
+                    services.AddScoped<IShapesMenu, ShapesMenu>();
+                    services.AddScoped<IRpsMenu, RpsMenu>();
                 })
                 .Build();
 
@@ -42,12 +48,8 @@ namespace ConsoleProject
             var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             DataInitializer.Seed(dbContext);
 
-            Console.Clear();
-            Console.WriteLine("START OK?");
-            Console.ReadKey();
-
-            var menu = scope.ServiceProvider.GetRequiredService<IMainMenu>();
-            await menu.ShowAsync();
+            var mainMenu = scope.ServiceProvider.GetRequiredService<IMainMenu>();
+            mainMenu.Show();
         }
     }
 }
