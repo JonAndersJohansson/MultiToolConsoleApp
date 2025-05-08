@@ -2,6 +2,6 @@
 {
     public interface IRpsMenu
     {
-        void ShowMenu();
+        void Show();
     }
 }
