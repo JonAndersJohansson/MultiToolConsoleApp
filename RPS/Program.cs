@@ -1,4 +1,7 @@
-﻿using DataAccessLayer.Data;
+﻿using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using DataAccessLayer.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -16,19 +19,23 @@ namespace RPS
             Console.ReadKey();
 
             var host = Host.CreateDefaultBuilder(args)
+                .UseServiceProviderFactory(new AutofacServiceProviderFactory()) //Autofac
                 .ConfigureAppConfiguration(config =>
                 {
                     config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
                 })
-                .ConfigureServices((context, services) =>
+                .ConfigureContainer<ContainerBuilder>(builder =>
                 {
-                    DatabaseBootstrapper.ConfigureDatabase(services, context.Configuration);;
+                    builder.Register(ctx =>
+                    {
+                        var config = ctx.Resolve<IConfiguration>();
+                        var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
+                        optionsBuilder.UseSqlServer(config.GetConnectionString("DefaultConnection"));
+                        return new AppDbContext(optionsBuilder.Options);
+                    }).AsSelf().InstancePerLifetimeScope();
 
-                    //Service
-                    services.AddScoped<IRpsService, RpsService>();
-
-                    //Menu
-                    services.AddScoped<IRpsMenu, RpsMenu>();
+                    builder.RegisterType<RpsService>().As<IRpsService>().InstancePerLifetimeScope();
+                    builder.RegisterType<RpsMenu>().As<IRpsMenu>().InstancePerLifetimeScope();
                 })
                 .Build();
 
@@ -40,7 +47,6 @@ namespace RPS
             // Starta meny
             var menu = scope.ServiceProvider.GetRequiredService<IRpsMenu>();
             menu.ShowMenu();
-
         }
     }
 }
