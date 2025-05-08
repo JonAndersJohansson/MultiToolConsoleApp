@@ -15,7 +15,7 @@ namespace Client.Menu
 
                 var userInput = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()
-                        .Title("[fuchsia]  Vad vill du göra idag?[/]")
+                        .Title("[aqua]  Vad vill du göra idag?[/]")
                         .PageSize(10)
                         .MoreChoicesText("[grey](Pila upp eller ned)[/]")
                         .AddChoices(new[] {
@@ -31,10 +31,14 @@ namespace Client.Menu
                         StartExternalApp("ShapesApp.exe");
                         break;
                     case "Spela Sten, Sax, Påse":
-                        StartExternalApp("RpsGameApp.exe");
+                        StartExternalApp("RPS.exe");
                         break;
                     case "[maroon]Avsluta[/]":
                         Environment.Exit(0);
+                        break;
+                    default:
+                        Console.WriteLine("Ogiltigt val. Tryck valfri tangent.");
+                        Console.ReadKey();
                         break;
                 }
             }
@@ -43,7 +47,8 @@ namespace Client.Menu
         {
             try
             {
-                var path = Path.Combine("..", "..", "..", "..", exeName.Replace(".exe", ""), "bin", "Debug", "net8.0", exeName);
+                var path = Path.Combine("..", "..", "..", "..", exeName.Replace(".exe", ""), "bin", "Debug", "net9.0", exeName);
+                //var path = Path.Combine("release", exeName);
 
                 if (!File.Exists(path))
                 {
