@@ -15,7 +15,7 @@ namespace DataAccessLayer.Data
 
         public static void EnsureDatabaseCreated(AppDbContext context)
         {
-            context.Database.EnsureCreated();
+            //context.Database.EnsureCreated();
             DataInitializer.Seed(context);
         }
     }

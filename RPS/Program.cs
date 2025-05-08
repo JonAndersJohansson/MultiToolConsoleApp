@@ -30,7 +30,9 @@ namespace RPS
                     {
                         var config = ctx.Resolve<IConfiguration>();
                         var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
-                        optionsBuilder.UseSqlServer(config.GetConnectionString("DefaultConnection"));
+                        optionsBuilder.UseSqlServer(
+                            config.GetConnectionString("DefaultConnection"),
+                            b => b.MigrationsAssembly("DataAccessLayer")); // Dela migrationsaasembly
                         return new AppDbContext(optionsBuilder.Options);
                     }).AsSelf().InstancePerLifetimeScope();
 
