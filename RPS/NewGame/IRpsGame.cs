@@ -1,4 +1,4 @@
-﻿namespace RPS
+﻿namespace RPS.Game
 {
     public interface IRpsGame
     {
