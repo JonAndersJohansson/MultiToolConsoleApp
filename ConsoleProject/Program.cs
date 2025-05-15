@@ -6,6 +6,9 @@ namespace ConsoleProject
     {
         public static void Main(string[] args)
         {
+            Console.WriteLine("In client program.cs...");
+            Console.ReadLine();
+
             MainMenu.Show();
         }
     }
