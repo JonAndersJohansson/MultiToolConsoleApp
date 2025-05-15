@@ -14,8 +14,6 @@ namespace Service.RPS
         }
         public GameResult CalculateResult(string userInput)
         {
-            //Returnera 9 olika varianter istället!?
-
             string botMove = GenerateBotMove();
 
             var rpsGame  = new RPSgame();
@@ -32,27 +30,24 @@ namespace Service.RPS
             };
             _rpsRepo.AddRPSgame(rpsGame);
 
-            var result = GenerateReturnResult(userInput, botMove);
-
-            //if (userInput == botMove)
-            //{
-            //    return GameResult.Draw;
-            //}
-            //else if ((userInput == "Sten" && botMove == "Sax") ||
-            //         (userInput == "Sax" && botMove == "Påse") ||
-            //         (userInput == "Påse" && botMove == "Sten"))
-            //{
-            //    return GameResult.Win;
-            //}
-            //else
-            //{
-            //    return GameResult.Lose;
-            //}
+            return GenerateReturnResult(userInput, botMove);
         }
 
         private GameResult GenerateReturnResult(string userInput, string botMove)
         {
-            throw new NotImplementedException();
+            return (userInput, botMove) switch
+            {
+                ("Scissors", "Scissors") => GameResult.ScissorsScissors,
+                ("Scissors", "Rock") => GameResult.ScissorsRock,
+                ("Scissors", "Paper") => GameResult.ScissorsPaper,
+                ("Rock", "Rock") => GameResult.RockRock,
+                ("Rock", "Scissors") => GameResult.RockScissors,
+                ("Rock", "Paper") => GameResult.RockPaper,
+                ("Paper", "Paper") => GameResult.PaperPaper,
+                ("Paper", "Rock") => GameResult.PaperRock,
+                ("Paper", "Scissors") => GameResult.PaperScissors,
+                _ => GameResult.Error
+            };
         }
 
         private string GenerateBotMove()

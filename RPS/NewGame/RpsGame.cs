@@ -17,6 +17,9 @@ namespace RPS.Game
         }
         public void StartGame()
         {
+            Graphics.DisplayClashingGraphics();
+            Console.ReadKey();
+
             while (true)
             {
                 var userInput = AnsiConsole.Prompt(
@@ -37,24 +40,64 @@ namespace RPS.Game
 
         private void CalculateResult(string userInput)
         {
-            GameResult gameResult = _rpsService.CalculateResult(userInput);
-
-            switch (gameResult)
+            string result = string.Empty;
+            GameResult graphicResult = _rpsService.CalculateResult(userInput);
+            if (graphicResult == GameResult.Error)
             {
-                case GameResult.Draw:
-                    ShowDraw();
+                AnsiConsole.MarkupLine($"[red]Ogiltigt val, tryck på någon tangent för att fortsätta.[/]");
+                Console.ReadKey();
+                return;
+            }
+
+            switch (graphicResult)
+            {
+                case GameResult.ScissorsScissors:
+                    result = "Oavgjort";
+                    Graphics.DisplayScissorsScissors();
                     break;
-                case GameResult.Win:
-                    //
+                case GameResult.ScissorsRock:
+                    result = "Förlust";
+                    Graphics.DisplayScissorsRock();
                     break;
-                case GameResult.Lose:
-                    //
+                case GameResult.ScissorsPaper:
+                    result = "Vinst";
+                    Graphics.DisplayScissorsPaper();
+                    break;
+                case GameResult.RockRock:
+                    result = "Oavgjort";
+                    Graphics.DisplayRockRock();
+                    break;
+                case GameResult.RockScissors:
+                    result = "Vinst";
+                    Graphics.DisplayRockScissors();
+                    break;
+                case GameResult.RockPaper:
+                    result = "Förlust";
+                    Graphics.DisplayRockPaper();
+                    break;
+                case GameResult.PaperPaper:
+                    result = "Oavgjort";
+                    Graphics.DisplayPaperPaper();
+                    break;
+                case GameResult.PaperRock:
+                    result = "Vinst";
+                    Graphics.DisplayPaperRock();
+                    break;
+                case GameResult.PaperScissors:
+                    result = "Förlust";
+                    Graphics.DisplayPaperScissors();
                     break;
                 default:
                     AnsiConsole.MarkupLine($"[red]Ogiltigt val resultat, tryck på någon tangent för att fortsätta.[/]");
                     Console.ReadKey();
                     break;
             }
+
+            AnsiConsole.MarkupLine($"Det blev {result}");
+            Console.ReadKey();
+
+
+
 
 
             //return GameResult.Lose;
@@ -68,26 +111,6 @@ namespace RPS.Game
 
         }
 
-        private void ShowDraw()
-        {
-            Console.Clear();
-            Thread.Sleep(500);
-            Graphics.RenderClashingHands();
-            Console.Beep(500, 500);
-            Thread.Sleep(500);
 
-            Console.Clear();
-            Thread.Sleep(500);
-            Graphics.RenderClashingHands();
-            Console.Beep(500, 500);
-            Thread.Sleep(500);
-
-            Console.Clear();
-            Thread.Sleep(500);
-            Graphics.RenderClashingHands();
-            Console.Beep(500, 500);
-            Thread.Sleep(500);
-
-        }
     }
 }

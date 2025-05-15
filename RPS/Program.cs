@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using DataAccessLayer.Data;
+using DataAccessLayer.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -85,6 +86,7 @@ namespace RPS
                                 return new AppDbContext(optionsBuilder.Options);
                             }).AsSelf().InstancePerLifetimeScope();
 
+                            builder.RegisterType<RpsRepository>().As<IRpsRepository>().InstancePerLifetimeScope();
                             builder.RegisterType<RpsService>().As<IRpsService>().InstancePerLifetimeScope();
                             builder.RegisterType<RpsMenu>().As<IRpsMenu>().InstancePerLifetimeScope();
                             builder.RegisterType<RpsGame>().As<IRpsGame>().InstancePerLifetimeScope();
