@@ -1,4 +1,5 @@
-﻿using RPS.UI;
+﻿using RPS.Menu;
+using RPS.UI;
 using Service.RPS;
 using Service.RPS.Enum;
 using Spectre.Console;
@@ -18,41 +19,23 @@ namespace RPS.Game
         {
             while (true)
             {
-                //Console.Clear();
-                //Graphics.RenderRPS();
-
                 var userInput = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()
                         .Title("[aqua]  Välj ditt vapen:[/]")
                         .PageSize(10)
                         .MoreChoicesText("[grey]  (Pila upp eller ned)[/]")
                         .AddChoices(new[] {
-                            "Sten", "Sax", "Påse", "[maroon]Avbryt spel[/]",
+                    "Sten", "Sax", "Påse", "[maroon]Avbryt spel[/]",
                         }));
 
-                switch (userInput)
-                {
-                    case "Sten":
-                        ShowResult(userInput);
-                        break;
-                    case "Sax":
-                        //
-                        break;
-                    case "Påse":
-                        //
-                        break;
-                    case "[maroon]Avbryt spel[/]":
-                        //
-                        break;
-                    default:
-                        Console.WriteLine("Ogiltigt val. Tryck valfri tangent.");
-                        Console.ReadKey();
-                        break;
-                }
+                if (userInput == "[maroon]Avbryt spel[/]")
+                    break;
+
+                CalculateResult(userInput);
             }
         }
 
-        private void ShowResult(string userInput)
+        private void CalculateResult(string userInput)
         {
             GameResult gameResult = _rpsService.CalculateResult(userInput);
 

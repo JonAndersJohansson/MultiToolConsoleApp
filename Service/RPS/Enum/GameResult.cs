@@ -2,8 +2,15 @@
 {
     public enum GameResult
     {
-        Win,
-        Lose,
-        Draw
+        ScissorsScissors,
+        ScissorsRock,
+        ScissorsPaper,
+        RockRock,
+        RockScissors,
+        RockPaper,
+        PaperPaper,
+        PaperRock,
+        PaperScissors,
+        Error
     }
 }
