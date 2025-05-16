@@ -19,7 +19,7 @@ namespace RPS.UI
             Console.WriteLine("                ██╔══██╗ ██╔╝  ██╔═══╝██╔╝  ╚════██║");
             Console.WriteLine("                ██║  ██║██╔╝   ██║   ██╔╝   ███████║");
             Console.WriteLine("                ╚═╝  ╚═╝╚═╝    ╚═╝   ╚═╝    ╚══════╝");
-            Console.WriteLine("------------------------------Console App-------------------------------");
+            Console.WriteLine("                              Console App                              ");
             Console.WriteLine("");
 
             Console.ResetColor();

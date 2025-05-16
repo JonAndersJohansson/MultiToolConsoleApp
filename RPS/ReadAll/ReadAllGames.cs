@@ -28,7 +28,7 @@ namespace RPS.ReadAll
 
                 ShowTable(matches, page, pageSize);
 
-                AnsiConsole.MarkupLine("[grey]  Pil Upp/Ner för att byta sida. Tryck [red]ESC[/] för att gå tillbaka.[/]");
+                AnsiConsole.MarkupLine("[grey]    Pil Upp/Ner för att byta sida. Tryck [red]ESC[/] för att gå tillbaka.[/]");
                 var key = Console.ReadKey(true).Key;
                 if (key == ConsoleKey.DownArrow && (page + 1) * pageSize < matches.Count)
                     page++;
@@ -41,17 +41,14 @@ namespace RPS.ReadAll
 
         private void ShowTable(List<RPSgame> matches, int page, int pageSize)
         {
-            // Ta fram sidans poster
             var currentPage = matches.Skip(page * pageSize).Take(pageSize).ToList();
-            // Beräkna antal sidor
             var totalPages = (int)Math.Ceiling(matches.Count / (double)pageSize);
-            // Visa som tabell
             var table = new Spectre.Console.Table()
                 .Border(TableBorder.Rounded)
-                .Title($"\n[aqua]Tidigare matcher (sida {page + 1} av {totalPages})[/]");
+                .Title($"\n[aqua]Tidigare matcher sorterat efter datum: (sida {page + 1} av {totalPages})[/]");
 
             table.AddColumn("Spelare");
-            table.AddColumn("Dator");
+            table.AddColumn("Bot");
             table.AddColumn("Resultat");
             table.AddColumn("Datum");
 
@@ -65,9 +62,11 @@ namespace RPS.ReadAll
                 );
             }
 
-            AnsiConsole.Write(table);
+            var panel = new Panel(table)
+                .Border(BoxBorder.None)
+                .Padding(13, 0, 13, 0);
 
-
+            AnsiConsole.Write(panel);
         }
 
         private void ShowChart(List<RPSgame> matches)
@@ -78,7 +77,7 @@ namespace RPS.ReadAll
 
             var chart = new BarChart()
                 .Width(60)
-                .Label("\n[aqua]Resultatstatistik[/]")
+                .Label("[aqua]Resultatstatistik:[/]\n")
                 .CenterLabel();
 
             chart.AddItem("Vinster", wins, Color.Green);
