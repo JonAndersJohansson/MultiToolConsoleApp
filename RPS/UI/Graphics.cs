@@ -26,14 +26,15 @@ namespace RPS.UI
         }
         public static void RenderRules()
         {
-            Console.ForegroundColor = ConsoleColor.Blue;
 
-            Console.WriteLine("  Gör ditt val: Sten sax eller påse.\n" +
+            AnsiConsole.MarkupLine("  [aqua]Gör ditt val: Sten, Sax eller Påse.\n" +
+                "  Du är [blue]blå[/] och boten är [red]röd.[/]\n" +
                 "  Sten vinner över sax.\n" +
                 "  Sax vinner över påse.\n" +
-                "  Påse vinner över sten.");
-
-            Console.ResetColor();
+                "  Påse vinner över sten.\n" +
+                "  Det kan bli oavgjort.[/]");
+            AnsiConsole.MarkupLine("\n  Tryck på valfri tangent för att återgå...");
+            Console.ReadKey();
         }
 
         public static void DisplayScissorsScissors()

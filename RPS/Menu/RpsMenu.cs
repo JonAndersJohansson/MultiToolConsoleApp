@@ -38,7 +38,7 @@ namespace RPS.Menu
                         //
                         break;
                     case "Visa regler":
-                        //
+                        Graphics.RenderRules();
                         break;
                     case "[maroon]Tillbaka[/]":
                         Environment.Exit(0);
