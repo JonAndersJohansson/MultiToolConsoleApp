@@ -2,6 +2,6 @@
 {
     public interface IReadAllGames
     {
-        Task ShowAllGames();
+        void ShowAllGames();
     }
 }

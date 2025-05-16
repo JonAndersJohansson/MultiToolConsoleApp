@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DataAccessLayer.Models;
+using RPS.UI;
 using Service.RPS;
 using Spectre.Console;
 
@@ -15,44 +16,20 @@ namespace RPS.ReadAll
         public void ShowAllGames()
         {
             var matches = _rpsService.GetAllGames();
-            int pageSize = 10;
+            int pageSize = 8;
             int page = 0;
 
             while (true)
             {
                 Console.Clear();
+                Graphics.RenderRPS();
 
-                // Visa bar chart först
-                ShowChart();
+                ShowChart(matches);
 
-                // Ta fram sidans poster
-                var currentPage = matches.Skip(page * pageSize).Take(pageSize).ToList();
+                ShowTable(matches, page, pageSize);
 
-                // Visa som tabell
-                var table = new Table()
-                    .Border(TableBorder.Rounded)
-                    .Title($"[aqua]Tidigare matcher (sida {page + 1})[/]");
-
-                table.AddColumn("Spelare");
-                table.AddColumn("Dator");
-                table.AddColumn("Resultat");
-                table.AddColumn("Datum");
-
-                foreach (var match in currentPage)
-                {
-                    table.AddRow(
-                        match.PlayerMove,
-                        match.ComputerMove,
-                        match.Result,
-                        match.PlayedAt.ToShortDateString()
-                    );
-                }
-
-                AnsiConsole.Write(table);
-
-                AnsiConsole.MarkupLine("[grey]Pil Upp/Ner för att byta sida. Tryck [yellow]ESC[/] för att gå tillbaka.[/]");
+                AnsiConsole.MarkupLine("[grey]  Pil Upp/Ner för att byta sida. Tryck [red]ESC[/] för att gå tillbaka.[/]");
                 var key = Console.ReadKey(true).Key;
-
                 if (key == ConsoleKey.DownArrow && (page + 1) * pageSize < matches.Count)
                     page++;
                 else if (key == ConsoleKey.UpArrow && page > 0)
@@ -61,11 +38,47 @@ namespace RPS.ReadAll
                     break;
             }
         }
-        private void ShowChart()
+
+        private void ShowTable(List<RPSgame> matches, int page, int pageSize)
         {
+            // Ta fram sidans poster
+            var currentPage = matches.Skip(page * pageSize).Take(pageSize).ToList();
+            // Beräkna antal sidor
+            var totalPages = (int)Math.Ceiling(matches.Count / (double)pageSize);
+            // Visa som tabell
+            var table = new Spectre.Console.Table()
+                .Border(TableBorder.Rounded)
+                .Title($"\n[aqua]Tidigare matcher (sida {page + 1} av {totalPages})[/]");
+
+            table.AddColumn("Spelare");
+            table.AddColumn("Dator");
+            table.AddColumn("Resultat");
+            table.AddColumn("Datum");
+
+            foreach (var match in currentPage)
+            {
+                table.AddRow(
+                    match.PlayerMove,
+                    match.ComputerMove,
+                    match.Result,
+                    match.PlayedAt.ToShortDateString()
+                );
+            }
+
+            AnsiConsole.Write(table);
+
+
+        }
+
+        private void ShowChart(List<RPSgame> matches)
+        {
+            int wins = matches.Count(x => x.Result == "Vinst");
+            int losses = matches.Count(x => x.Result == "Förlust");
+            int draws = matches.Count(x => x.Result == "Oavgjort");
+
             var chart = new BarChart()
                 .Width(60)
-                .Label("[green bold]Resultatstatistik[/]")
+                .Label("\n[aqua]Resultatstatistik[/]")
                 .CenterLabel();
 
             chart.AddItem("Vinster", wins, Color.Green);
