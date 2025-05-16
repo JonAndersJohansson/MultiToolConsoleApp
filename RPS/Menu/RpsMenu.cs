@@ -1,4 +1,5 @@
 ﻿using RPS.Game;
+using RPS.ReadAll;
 using RPS.UI;
 using Service.RPS;
 using Spectre.Console;
@@ -8,10 +9,12 @@ namespace RPS.Menu
     public class RpsMenu : IRpsMenu
     {
         private readonly IRpsGame _rpsGame;
+        private readonly IReadAllGames _readAllGames;
 
-        public RpsMenu(IRpsGame rpsGame)
+        public RpsMenu(IRpsGame rpsGame, IReadAllGames readAllGames)
         {
             _rpsGame = rpsGame;
+            _readAllGames = readAllGames;
         }
         public void Show()
         {
@@ -35,7 +38,7 @@ namespace RPS.Menu
                         _rpsGame.StartGame();
                         break;
                     case "Visa tidigare spel":
-                        //
+                        _readAllGames.ShowAllGames();
                         break;
                     case "Visa regler":
                         Graphics.RenderRules();

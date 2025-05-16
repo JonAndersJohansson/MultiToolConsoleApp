@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RPS.Game;
 using RPS.Menu;
+using RPS.ReadAll;
 using Service.RPS;
 using Spectre.Console;
 using System.ComponentModel.DataAnnotations;
@@ -92,6 +93,7 @@ namespace RPS
                             builder.RegisterType<RpsService>().As<IRpsService>().InstancePerLifetimeScope();
                             builder.RegisterType<RpsMenu>().As<IRpsMenu>().InstancePerLifetimeScope();
                             builder.RegisterType<RpsGame>().As<IRpsGame>().InstancePerLifetimeScope();
+                            builder.RegisterType<ReadAllGames>().As<IReadAllGames>().InstancePerLifetimeScope();
                         })
                         .Build();
 
