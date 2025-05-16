@@ -37,15 +37,15 @@ namespace Service.RPS
         {
             return (userInput, botMove) switch
             {
-                ("Scissors", "Scissors") => GameResult.ScissorsScissors,
-                ("Scissors", "Rock") => GameResult.ScissorsRock,
-                ("Scissors", "Paper") => GameResult.ScissorsPaper,
-                ("Rock", "Rock") => GameResult.RockRock,
-                ("Rock", "Scissors") => GameResult.RockScissors,
-                ("Rock", "Paper") => GameResult.RockPaper,
-                ("Paper", "Paper") => GameResult.PaperPaper,
-                ("Paper", "Rock") => GameResult.PaperRock,
-                ("Paper", "Scissors") => GameResult.PaperScissors,
+                ("Sax", "Sax") => GameResult.ScissorsScissors,
+                ("Sax", "Sten") => GameResult.ScissorsRock,
+                ("Sax", "Påse") => GameResult.ScissorsPaper,
+                ("Sten", "Sten") => GameResult.RockRock,
+                ("Sten", "Sax") => GameResult.RockScissors,
+                ("Sten", "Påse") => GameResult.RockPaper,
+                ("Påse", "Påse") => GameResult.PaperPaper,
+                ("Påse", "Sten") => GameResult.PaperRock,
+                ("Påse", "Sax") => GameResult.PaperScissors,
                 _ => GameResult.Error
             };
         }

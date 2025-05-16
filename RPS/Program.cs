@@ -58,6 +58,8 @@ namespace RPS
         //}
         public static async Task Main(string[] args)
         {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+
             AnsiConsole.MarkupLine("[cyan]  Startar RPS...[/]");
 
             IHost host = null;

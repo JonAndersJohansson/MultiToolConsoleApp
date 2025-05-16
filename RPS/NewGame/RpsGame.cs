@@ -17,8 +17,8 @@ namespace RPS.Game
         }
         public void StartGame()
         {
-            Graphics.DisplayClashingGraphics();
-            Console.ReadKey();
+            //Graphics.DisplayClashingGraphics();
+            //Console.ReadKey();
 
             while (true)
             {
@@ -35,6 +35,7 @@ namespace RPS.Game
                     break;
 
                 CalculateResult(userInput);
+                return;
             }
         }
 
@@ -46,6 +47,7 @@ namespace RPS.Game
             {
                 AnsiConsole.MarkupLine($"[red]Ogiltigt val, tryck på någon tangent för att fortsätta.[/]");
                 Console.ReadKey();
+                Console.Clear();
                 return;
             }
 
@@ -92,25 +94,17 @@ namespace RPS.Game
                     Console.ReadKey();
                     break;
             }
+            if (result == "Förlust")
+                AnsiConsole.MarkupLine($"\n  Det blev [red]förlust![/] 😩");
+            else if (result == "Vinst")
+                AnsiConsole.MarkupLine($"\n  Det blev [green]vinst![/] 😎");
+            else
+                AnsiConsole.MarkupLine($"\n  Det blev [yellow]oavgjort![/] 🙄");
 
-            AnsiConsole.MarkupLine($"Det blev {result}");
+            AnsiConsole.MarkupLine("  Tryck på någon tangent för att återgå till menyn...");
+
             Console.ReadKey();
-
-
-
-
-
-            //return GameResult.Lose;
-            //AnsiConsole.MarkupLine($"[red]Du valde {userInput} och datorn valde {computerChoiceString}. Du förlorade![/]");
-
-            //return GameResult.Win;
-            //AnsiConsole.MarkupLine($"[green]Du valde {userInput} och datorn valde {computerChoiceString}. Du vann![/]");
-
-            //return GameResult.Draw;
-            //AnsiConsole.MarkupLine($"[yellow]Du valde {userInput} och datorn valde {computerChoiceString}. Det blev oavgjort![/]");
-
+            Console.Clear();
         }
-
-
     }
 }

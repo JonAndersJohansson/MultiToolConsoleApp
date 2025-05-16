@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Spectre.Console;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,58 +35,41 @@ namespace RPS.UI
 
             Console.ResetColor();
         }
-        public static void DisplayClashingGraphics()
-        {
-            Console.Clear();
-            Thread.Sleep(500);
-            RenderClashingHands();
-            Console.Beep(500, 500);
-            Thread.Sleep(500);
-
-            Console.Clear();
-            Thread.Sleep(500);
-            RenderClashingHands();
-            Console.Beep(500, 500);
-            Thread.Sleep(500);
-
-            Console.Clear();
-            Thread.Sleep(500);
-            //RenderClashingHands();
-            //Console.Beep(500, 500);
-            //Thread.Sleep(500);
-        }
 
         public static void DisplayScissorsScissors()
         {
-            Console.ForegroundColor = ConsoleColor.Blue;
-            Console.Write("     ________        ");
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("        ________");
+            DisplayClashingGraphics();
+            Console.WriteLine("                    Du:                    Bot:");
 
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.Write(" ---'   _____)____   ");
+            Console.Write("                 ________         ");
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("   ____(_____   '---");
+            Console.WriteLine("         ________");
 
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.Write("           _______)  ");
+            Console.Write("             ---'    ____)_____   ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("   _____(____    '---");
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("                        _______)  ");
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("  (_______");
 
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.Write("           ________) ");
+            Console.Write("             Sax     ___________) ");
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine(" (________");
+            Console.WriteLine(" (___________     Sax");
 
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.Write("          ________)  ");
+            Console.Write("                    (____)        ");
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("  (________");
+            Console.WriteLine("        (____)");
 
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.Write(" ---.__________)     ");
+            Console.Write("             ---.__(___)          ");
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("     (__________.---");
+            Console.WriteLine("         (___)___.---");
 
             Console.ResetColor();
             Console.Beep(500, 500);
@@ -93,43 +77,114 @@ namespace RPS.UI
 
         public static void DisplayScissorsRock()
         {
-            throw new NotImplementedException();
-        }
+            DisplayClashingGraphics();
+            Console.WriteLine("                    Du:                    Bot:");
 
-        public static void DisplayScissorsPaper()
-        {
-            throw new NotImplementedException();
-        }
-
-        public static void DisplayRockRock()
-        {
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.Write("            ______   ");
+            Console.Write("                 ________         ");
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("   ______");
 
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.Write(" ----------'  ____)  ");
+            Console.Write("             ---'    ____)_____   ");
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("  (____  '-----------");
 
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.Write("              (____) ");
+            Console.Write("                        _______)  ");
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine(" (____)");
 
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.Write("              (____) ");
+            Console.Write("             Sax     ___________) ");
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine(" (____)");
+            Console.WriteLine(" (____)          Sten");
 
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.Write("              (___)  ");
+            Console.Write("                    (____)        ");
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("  (___)");
 
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.Write(" ----------.__(__)   ");
+            Console.Write("             ---.__(___)          ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("   (__)__.-----------");
+
+            Console.ResetColor();
+            Console.Beep(500, 500);
+        }
+
+        public static void DisplayScissorsPaper()
+        {
+            DisplayClashingGraphics();
+            Console.WriteLine("                    Du:                    Bot:");
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("                 ________         ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("        ________");
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("             ---'    ____)_____   ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("   ____(_____   '---");
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("                        _______)  ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("  (_______");
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("             Sax     ___________) ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(" (________      Påse");
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("                    (____)        ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("  (________");
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("             ---.__(___)          ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("     (__________.---");
+
+            Console.ResetColor();
+            Console.Beep(500, 500);
+        }
+
+        public static void DisplayRockRock()
+        {
+            DisplayClashingGraphics();
+            Console.WriteLine("                    Du:                    Bot:");
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("                        ______   ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("   ______");
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("             ----------'  ____)  ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("  (____  '-----------");
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("                          (____) ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(" (____)");
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("             Sten         (____) ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(" (____)         Sten");
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("                          (___)  ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("  (___)");
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("             ----------.__(__)   ");
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("   (__)__.-----------");
 
@@ -139,60 +194,256 @@ namespace RPS.UI
 
         public static void DisplayRockScissors()
         {
-            throw new NotImplementedException();
+            DisplayClashingGraphics();
+            //AnsiConsole.MarkupLine("                    [bold]Du:[/]                    [bold]Bot:[/]");
+            //AnsiConsole.MarkupLine("[blue]                        ______   [/][red]         ________[/]");
+            //AnsiConsole.MarkupLine("[blue]             ----------'  ____)  [/][red]   _____(____    '---[/]");
+            //AnsiConsole.MarkupLine("[blue]                          (____) [/][red]  (_______[/]");
+            //AnsiConsole.MarkupLine("[blue]             Sten         (____) [/][red] (___________     Sax[/]");
+            //AnsiConsole.MarkupLine("[blue]                          (___)  [/][red]        (____)[/]");
+            //AnsiConsole.MarkupLine("[blue]             ----------.__(__)   [/][red]         (___)___.---[/]");
+            Console.WriteLine("                    Du:                    Bot:");
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("                        ______   ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("         ________");
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("             ----------'  ____)  ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("   _____(____    '---");
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("                          (____) ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("  (_______");
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("             Sten         (____) ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(" (___________     Sax");
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("                          (___)  ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("        (____)");
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("             ----------.__(__)   ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("         (___)___.---");
+
+            Console.ResetColor();
+            Console.Beep(500, 500);
         }
 
         public static void DisplayRockPaper()
         {
-            throw new NotImplementedException();
+            DisplayClashingGraphics();
+            Console.WriteLine("                    Du:                    Bot:");
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("                        ______   ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("        ________");
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("             ----------'  ____)  ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("   ____(_____   '---");
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("                          (____) ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("  (_______");
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("             Sten         (____) ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(" (________      Påse");
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("                          (___)  ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("  (________");
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("             ----------.__(__)   ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("     (__________.---");
+
+            Console.ResetColor();
+            Console.Beep(500, 500);
         }
 
         public static void DisplayPaperPaper()
         {
-            throw new NotImplementedException();
+            DisplayClashingGraphics();
+            Console.WriteLine("                    Du:                    Bot:");
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("                 ________        ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("        ________");
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("             ---'   _____)____   ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("   ____(_____   '---");
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("                       _______)  ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("  (_______");
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("             Påse      ________) ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(" (________      Påse");
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("                      ________)  ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("  (________");
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("             ---.__________)     ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("     (__________.---");
+
+            Console.ResetColor();
+            Console.Beep(500, 500);
         }
 
         public static void DisplayPaperRock()
         {
-            throw new NotImplementedException();
-        }
+            DisplayClashingGraphics();
+            Console.WriteLine("                    Du:                    Bot:");
 
-        public static void DisplayPaperScissors()
-        {
-            throw new NotImplementedException();
-        }
-
-        private static void RenderClashingHands()
-        {
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.Write("     ______   ");
+            Console.Write("                 ________        ");
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("   ______");
 
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.Write(" ---'  ____)  ");
+            Console.Write("             ---'   _____)____   ");
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("  (____  '---");
+            Console.WriteLine("  (____  '-----------");
 
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.Write("       (____) ");
+            Console.Write("                       _______)  ");
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine(" (____)       ");
+            Console.WriteLine(" (____)");
 
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.Write("       (____) ");
+            Console.Write("             Påse      ________) ");
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine(" (____)       ");
+            Console.WriteLine(" (____)         Sten");
 
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.Write("       (___)  ");
+            Console.Write("                      ________)  ");
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("  (___)       ");
+            Console.WriteLine("  (___)");
 
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.Write(" ---.__(__)   ");
+            Console.Write("             ---.__________)     ");
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("   (__)__.---");
+            Console.WriteLine("   (__)__.-----------");
+
+            Console.ResetColor();
+            Console.Beep(500, 500);
+        }
+
+        public static void DisplayPaperScissors()
+        {
+            DisplayClashingGraphics();
+            Console.WriteLine("                    Du:                    Bot:");
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("                 ________        ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("         ________");
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("             ---'   _____)____   ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("   _____(____    '---");
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("                       _______)  ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("  (_______");
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("             Påse      ________) ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(" (___________     Sax");
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("                      ________)  ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("        (____)");
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("             ---.__________)     ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("         (___)___.---");
+
+            Console.ResetColor();
+            Console.Beep(500, 500);
+        }
+        private static void DisplayClashingGraphics()
+        {
+            Console.Clear();
+            RenderRPS();
+            Thread.Sleep(500);
+            RenderClashingHands();
+            Console.Beep(500, 500);
+            Thread.Sleep(500);
+
+            Console.Clear();
+            RenderRPS();
+            Thread.Sleep(500);
+            RenderClashingHands();
+            Console.Beep(500, 500);
+            Thread.Sleep(500);
+
+            Console.Clear();
+            RenderRPS();
+            Thread.Sleep(500);
+        }
+        private static void RenderClashingHands()
+        {
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("                        ______   ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("   ______");
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("             ----------'  ____)  ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("  (____  '-----------");
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("                          (____) ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(" (____)");
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("                          (____) ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(" (____)");
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("                          (___)  ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("  (___)");
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("             ----------.__(__)   ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("   (__)__.-----------");
 
             Console.ResetColor();
         }
