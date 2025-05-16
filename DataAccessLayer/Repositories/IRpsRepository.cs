@@ -10,6 +10,7 @@ namespace DataAccessLayer.Repositories
     public interface IRpsRepository
     {
         void AddRPSgame(RPSgame game);
+        List<RPSgame> GetAllRPSgames();
         //List<RPSgame> GetAllGames();
         //RPSgame GetGameById(int id);
         //void DeleteGame(int id);

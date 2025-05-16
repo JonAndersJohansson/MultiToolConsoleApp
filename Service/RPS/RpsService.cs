@@ -32,6 +32,10 @@ namespace Service.RPS
 
             return GenerateReturnResult(userInput, botMove);
         }
+        public List<RPSgame> GetAllGames()
+        {
+            return _rpsRepo.GetAllRPSgames();
+        }
 
         private GameResult GenerateReturnResult(string userInput, string botMove)
         {

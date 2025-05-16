@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer.Data;
 using DataAccessLayer.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,13 @@ namespace DataAccessLayer.Repositories
         {
             _dbContext.RpsGames.Add(game);
             _dbContext.SaveChanges();
+        }
+        public List<RPSgame> GetAllRPSgames()
+        {
+            return _dbContext.RpsGames
+                .OrderByDescending(x => x.PlayedAt)
+                .ToList();
+                
         }
     }
 }
