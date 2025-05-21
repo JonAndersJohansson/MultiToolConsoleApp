@@ -1,18 +1,14 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using DataAccessLayer.Data;
-using DataAccessLayer.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using RPS.Game;
-using RPS.Menu;
-using RPS.ReadAll;
-using Service.RPS;
+using Shapes.Menu;
 using Spectre.Console;
 
-namespace RPS
+namespace Shapes
 {
     public class Program
     {
@@ -20,12 +16,11 @@ namespace RPS
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
 
-            AnsiConsole.MarkupLine("[cyan]  Startar RPS...[/]");
+            AnsiConsole.MarkupLine("[cyan]  Startar Shapes...[/]");
 
             IHost host = null;
             IServiceScope scope = null;
-            IRpsMenu menu = null;
-
+            IShapesMenu menu = null;
             await AnsiConsole.Status()
                 .Spinner(Spinner.Known.Star)
                 .StartAsync("  Initierar tjänster och databas...", async ctx =>
@@ -48,11 +43,11 @@ namespace RPS
                                 return new AppDbContext(optionsBuilder.Options);
                             }).AsSelf().InstancePerLifetimeScope();
 
-                            builder.RegisterType<RpsRepository>().As<IRpsRepository>().InstancePerLifetimeScope();
-                            builder.RegisterType<RpsService>().As<IRpsService>().InstancePerLifetimeScope();
-                            builder.RegisterType<RpsMenu>().As<IRpsMenu>().InstancePerLifetimeScope();
-                            builder.RegisterType<RpsGame>().As<IRpsGame>().InstancePerLifetimeScope();
-                            builder.RegisterType<ReadAllGames>().As<IReadAllGames>().InstancePerLifetimeScope();
+                            builder.RegisterType<ShapesMenu>().As<IShapesMenu>().InstancePerLifetimeScope();
+                            //builder.RegisterType<RpsRepository>().As<IRpsRepository>().InstancePerLifetimeScope();
+                            //builder.RegisterType<RpsService>().As<IRpsService>().InstancePerLifetimeScope();
+                            //builder.RegisterType<RpsGame>().As<IRpsGame>().InstancePerLifetimeScope();
+                            //builder.RegisterType<ReadAllGames>().As<IReadAllGames>().InstancePerLifetimeScope();
                         })
                         .Build();
 
@@ -60,7 +55,7 @@ namespace RPS
                     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
                     DatabaseBootstrapper.EnsureDatabaseCreated(db);
 
-                    menu = scope.ServiceProvider.GetRequiredService<IRpsMenu>();
+                    menu = scope.ServiceProvider.GetRequiredService<IShapesMenu>();
 
                     ctx.Status("  Startar meny...");
                     await Task.Delay(500);
@@ -69,6 +64,5 @@ namespace RPS
             Console.Clear();
             menu.Show();
         }
-
     }
 }

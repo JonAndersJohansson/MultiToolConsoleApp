@@ -25,10 +25,10 @@ namespace Client.Menu
                 switch (userInput)
                 {
                     case "Använd Kalkylator":
-                        StartExternalApp("CalculatorApp.exe");
+                        StartExternalApp("Calculator.exe");
                         break;
                     case "Använd Formuträknare":
-                        StartExternalApp("ShapesApp.exe");
+                        StartExternalApp("Shapes.exe");
                         break;
                     case "Spela Sten, Sax, Påse":
                         StartExternalApp("RPS.exe");

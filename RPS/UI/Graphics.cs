@@ -196,13 +196,7 @@ namespace RPS.UI
         public static void DisplayRockScissors()
         {
             DisplayClashingGraphics();
-            //AnsiConsole.MarkupLine("                    [bold]Du:[/]                    [bold]Bot:[/]");
-            //AnsiConsole.MarkupLine("[blue]                        ______   [/][red]         ________[/]");
-            //AnsiConsole.MarkupLine("[blue]             ----------'  ____)  [/][red]   _____(____    '---[/]");
-            //AnsiConsole.MarkupLine("[blue]                          (____) [/][red]  (_______[/]");
-            //AnsiConsole.MarkupLine("[blue]             Sten         (____) [/][red] (___________     Sax[/]");
-            //AnsiConsole.MarkupLine("[blue]                          (___)  [/][red]        (____)[/]");
-            //AnsiConsole.MarkupLine("[blue]             ----------.__(__)   [/][red]         (___)___.---[/]");
+
             Console.WriteLine("                    Du:                    Bot:");
 
             Console.ForegroundColor = ConsoleColor.Blue;
