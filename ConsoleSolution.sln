@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPS", "RPS\RPS.csproj", "{4
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shapes", "Shapes\Shapes.csproj", "{528B874D-4650-4138-AD30-C1D65165CF3A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator", "Calculator\Calculator.csproj", "{BD6B1557-9974-4FD8-AA73-328F92513587}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{528B874D-4650-4138-AD30-C1D65165CF3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{528B874D-4650-4138-AD30-C1D65165CF3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{528B874D-4650-4138-AD30-C1D65165CF3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD6B1557-9974-4FD8-AA73-328F92513587}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD6B1557-9974-4FD8-AA73-328F92513587}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD6B1557-9974-4FD8-AA73-328F92513587}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD6B1557-9974-4FD8-AA73-328F92513587}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
