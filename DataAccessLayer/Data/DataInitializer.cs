@@ -31,6 +31,25 @@ namespace DataAccessLayer.Data
                         Area = 12,
                         Perimeter = 15,
                         CalculatedAt = DateTime.Now.AddDays(-1)
+                    },
+                    new ShapeCalculation
+                    {
+                        ShapeType = "Romb",
+                        Param1 = 6,      // Diagonal 1
+                        Param2 = 8,      // Diagonal 2
+                        Area = 24,       // (d1 * d2) / 2 = 24
+                        Perimeter = 28,  // t.ex. 4 sidor à 7
+                        CalculatedAt = DateTime.Now.AddDays(-1)
+                    },
+                    new ShapeCalculation
+                    {
+                        ShapeType = "Parallellogram",
+                        Param1 = 5,      // Bas
+                        Param2 = 4,      // Höjd
+                        Param3 = 5,      // Sida (för perimeter)
+                        Area = 20,       // bas * höjd
+                        Perimeter = 20,  // 2*(bas + sida)
+                        CalculatedAt = DateTime.Now.AddDays(-1)
                     }
                 });
             }
