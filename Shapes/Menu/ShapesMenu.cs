@@ -1,5 +1,7 @@
-﻿using Service.Shapes;
+﻿using DataAccessLayer.Models;
+using Service.Shapes;
 using Service.Shapes.Strategy;
+using Shapes.Edit;
 using Shapes.UI;
 using Spectre.Console;
 
@@ -7,13 +9,11 @@ namespace Shapes.Menu
 {
     public class ShapesMenu : IShapesMenu
     {
-        private readonly Dictionary<string, IShapeStrategy> _strategyResolver;
-        private readonly IShapeService _shapeService;
+        private readonly IEditShape _editShape;
 
-        public ShapesMenu(IEnumerable<IShapeStrategy> strategies, IShapeService shapeService)
+        public ShapesMenu(IEditShape editShape)
         {
-            _strategyResolver = strategies.ToDictionary(s => s.ShapeType);
-            _shapeService = shapeService;
+            _editShape = editShape;
         }
         public void ShapesMainMenu()
         {
@@ -68,16 +68,12 @@ namespace Shapes.Menu
                 switch (userInput)
                 {
                     case "Rektangel":
-                        CreateShapeMenu(userInput);
-                        break;
                     case "Parallellogram":
-                        CreateShapeMenu(userInput);
-                        break;
-                    case "Triangel":
-                        CreateShapeMenu(userInput);
-                        break;
                     case "Romb":
-                        CreateShapeMenu(userInput);
+                    case "Triangel":
+                        ShapeCalculation shape = new ShapeCalculation();
+                        shape.ShapeType = userInput;
+                        _editShape.AskForShapeParameters(shape);
                         break;
                     case "[maroon]Tillbaka[/]":
                         return;
@@ -88,35 +84,44 @@ namespace Shapes.Menu
                 }
             }
         }
-        public void CreateShapeMenu(string shape)
-        {
-            Console.Clear();
-            Graphics.RenderShapes();
-            AnsiConsole.MarkupLine($"[aqua]Du har valt att skapa en {shape}.[/]");
+        //public void AskForShapeParameters(ShapeCalculation shape)
+        //{
+        //    Console.Clear();
+        //    Graphics.RenderShapes();
+        //    AnsiConsole.MarkupLine($"[aqua]  Du har valt att skapa en {shape.ShapeType}.[/]");
 
-            var strategy = _strategyResolver[shape]; // Dictionary eller Autofac Named-resolver
+        //    var strategy = _strategyResolver[shape.ShapeType]; // Dictionary eller Autofac Named-resolver
 
-            var prompts = strategy.ParameterPrompts;
-            var parameters = new List<double>();
+        //    var prompts = strategy.ParameterPrompts;
+        //    var parameters = new List<double>();
 
-            foreach (var prompt in prompts)
-            {
-                double value = AnsiConsole.Ask<double>($"[aqua]{prompt}[/]:");
-                parameters.Add(value);
-            }
+        //    foreach (var prompt in prompts)
+        //    {
+        //        double value = AnsiConsole.Prompt(
+        //            new TextPrompt<double>($"\n[aqua]  Ange {prompt}[/]:")
+        //                //.PromptStyle("aqua")
+        //                .ValidationErrorMessage("[red]  Fel: Du måste ange ett tal.[/]")
+        //                .Validate(input =>
+        //                    input > 0 ? ValidationResult.Success() :
+        //                    ValidationResult.Error("[red]  Värdet måste vara större än 0.[/]"))
+        //        );
 
-            var area = strategy.CalculateArea(parameters.ToArray());
-            var perimeter = strategy.CalculatePerimeter(parameters.ToArray());
+        //        parameters.Add(value);
+        //    }
 
-            AnsiConsole.MarkupLine($"[green]Area: {area}[/]");
-            AnsiConsole.MarkupLine($"[green]Omkrets: {perimeter}[/]");
 
-            Console.ReadKey();
-            // Spara till databasen...
-            _shapeService.CreateCalculation(shape, parameters.ToArray(), area, perimeter);
+        //    var area = Math.Round(strategy.CalculateArea(parameters.ToArray()), 2);
+        //    var perimeter = Math.Round(strategy.CalculatePerimeter(parameters.ToArray()), 2);
 
-            AnsiConsole.MarkupLine("[grey]Tryck valfri tangent för att återgå till menyn.[/]");
-            Console.ReadKey();
-        }
+        //    AnsiConsole.MarkupLine($"\n[green]  Area: {area}[/]");
+        //    AnsiConsole.MarkupLine($"[green]  Omkrets: {perimeter}[/]");
+
+        //    Console.ReadKey();
+        //    // Spara till databasen...
+        //    //_shapeService.CreateCalculation(shape, parameters.ToArray(), area, perimeter);
+
+        //    AnsiConsole.MarkupLine("[grey]Tryck valfri tangent för att återgå till menyn.[/]");
+        //    Console.ReadKey();
+        //}
     }
 }

@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Service.Shapes;
 using Service.Shapes.Strategy;
+using Shapes.Edit;
 using Shapes.Menu;
 using Spectre.Console;
 
@@ -50,7 +51,7 @@ namespace Shapes
                             builder.RegisterType<ParallelogramStrategy>().As<IShapeStrategy>();
                             builder.RegisterType<TriangleStrategy>().As<IShapeStrategy>();
                             builder.RegisterType<RhombusStrategy>().As<IShapeStrategy>();
-
+                            builder.RegisterType<EditShape>().As<IEditShape>().InstancePerLifetimeScope();
                             //builder.RegisterType<ShapeRepository>().As<IShapeRepository>().InstancePerLifetimeScope();
                             builder.RegisterType<ShapeService>().As<IShapeService>().InstancePerLifetimeScope();
                         })
