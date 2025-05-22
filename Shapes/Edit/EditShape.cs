@@ -21,7 +21,7 @@ namespace Shapes.Edit
             Graphics.RenderShapes();
             AnsiConsole.MarkupLine($"[aqua]  Du har valt att skapa en {shape.ShapeType}.[/]");
 
-            var strategy = _strategyResolver[shape.ShapeType]; // Dictionary eller Autofac Named-resolver
+            var strategy = _strategyResolver[shape.ShapeType];
 
             var prompts = strategy.ParameterPrompts;
             var parameters = new List<double>();
@@ -30,7 +30,6 @@ namespace Shapes.Edit
             {
                 double value = AnsiConsole.Prompt(
                     new TextPrompt<double>($"\n[aqua]  Ange {prompt}[/]:")
-                        //.PromptStyle("aqua")
                         .ValidationErrorMessage("[red]  Fel: Du måste ange ett tal.[/]")
                         .Validate(input =>
                             input > 0 ? ValidationResult.Success() :
@@ -47,11 +46,9 @@ namespace Shapes.Edit
             AnsiConsole.MarkupLine($"\n[green]  Area: {area}[/]");
             AnsiConsole.MarkupLine($"[green]  Omkrets: {perimeter}[/]");
 
-            Console.ReadKey();
-            // Spara till databasen...
-            //_shapeService.CreateCalculation(shape, parameters.ToArray(), area, perimeter);
+            _shapeService.Save(shape, parameters.ToArray(), area, perimeter);
 
-            AnsiConsole.MarkupLine("[grey]Tryck valfri tangent för att återgå till menyn.[/]");
+            AnsiConsole.MarkupLine("[grey]  Tryck valfri tangent för att återgå till menyn.[/]");
             Console.ReadKey();
         }
     }

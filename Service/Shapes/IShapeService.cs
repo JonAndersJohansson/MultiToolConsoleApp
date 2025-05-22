@@ -1,7 +1,9 @@
-﻿namespace Service.Shapes
+﻿using DataAccessLayer.Models;
+
+namespace Service.Shapes
 {
     public interface IShapeService
     {
-        void CreateCalculation(string shape, double[] doubles, double area, double perimeter);
+        void Save(ShapeCalculation shape, double[] parameters, double area, double perimeter);
     }
 }

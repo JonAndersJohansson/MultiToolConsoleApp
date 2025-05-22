@@ -1,10 +1,26 @@
-﻿namespace Service.Shapes
+﻿using DataAccessLayer.Models;
+using DataAccessLayer.Repositories;
+
+namespace Service.Shapes
 {
     public class ShapeService : IShapeService
     {
-        public void CreateCalculation(string shape, double[] doubles, double area, double perimeter)
+        private readonly IShapeRepository _shapeRepo;
+
+        public ShapeService(IShapeRepository shapeRepo)
         {
-            //lo
+            _shapeRepo = shapeRepo;
+        }
+        public void Save(ShapeCalculation shape, double[] parameters, double area, double perimeter)
+        {
+            shape.Param1 = parameters.ElementAtOrDefault(0);
+            shape.Param2 = parameters.ElementAtOrDefault(1);
+            shape.Param3 = parameters.ElementAtOrDefault(2);
+            shape.Area = area;
+            shape.Perimeter = perimeter;
+            shape.CalculatedAt = DateTime.Now;
+
+            _shapeRepo.Add(shape);
         }
     }
 }

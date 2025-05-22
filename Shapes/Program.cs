@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using DataAccessLayer.Data;
+using DataAccessLayer.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -52,7 +53,7 @@ namespace Shapes
                             builder.RegisterType<TriangleStrategy>().As<IShapeStrategy>();
                             builder.RegisterType<RhombusStrategy>().As<IShapeStrategy>();
                             builder.RegisterType<EditShape>().As<IEditShape>().InstancePerLifetimeScope();
-                            //builder.RegisterType<ShapeRepository>().As<IShapeRepository>().InstancePerLifetimeScope();
+                            builder.RegisterType<ShapeRepository>().As<IShapeRepository>().InstancePerLifetimeScope();
                             builder.RegisterType<ShapeService>().As<IShapeService>().InstancePerLifetimeScope();
                         })
                         .Build();
