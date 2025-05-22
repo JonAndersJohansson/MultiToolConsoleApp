@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Service.Shapes;
 using Service.Shapes.Strategy;
 using Shapes.Menu;
 using Spectre.Console;
@@ -45,11 +46,13 @@ namespace Shapes
                             }).AsSelf().InstancePerLifetimeScope();
 
                             builder.RegisterType<ShapesMenu>().As<IShapesMenu>().InstancePerLifetimeScope();
-                            builder.RegisterType<RectangleStrategy>().Named<IShapeStrategy>("Rektangel");
-                            //builder.RegisterType<RpsRepository>().As<IRpsRepository>().InstancePerLifetimeScope();
-                            //builder.RegisterType<RpsService>().As<IRpsService>().InstancePerLifetimeScope();
-                            //builder.RegisterType<RpsGame>().As<IRpsGame>().InstancePerLifetimeScope();
-                            //builder.RegisterType<ReadAllGames>().As<IReadAllGames>().InstancePerLifetimeScope();
+                            builder.RegisterType<RectangleStrategy>().As<IShapeStrategy>();
+                            builder.RegisterType<ParallelogramStrategy>().As<IShapeStrategy>();
+                            builder.RegisterType<TriangleStrategy>().As<IShapeStrategy>();
+                            builder.RegisterType<RhombusStrategy>().As<IShapeStrategy>();
+
+                            //builder.RegisterType<ShapeRepository>().As<IShapeRepository>().InstancePerLifetimeScope();
+                            builder.RegisterType<ShapeService>().As<IShapeService>().InstancePerLifetimeScope();
                         })
                         .Build();
 

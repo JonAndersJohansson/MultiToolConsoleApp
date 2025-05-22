@@ -1,10 +1,20 @@
-﻿using Shapes.UI;
+﻿using Service.Shapes;
+using Service.Shapes.Strategy;
+using Shapes.UI;
 using Spectre.Console;
 
 namespace Shapes.Menu
 {
     public class ShapesMenu : IShapesMenu
     {
+        private readonly Dictionary<string, IShapeStrategy> _strategyResolver;
+        private readonly IShapeService _shapeService;
+
+        public ShapesMenu(IEnumerable<IShapeStrategy> strategies, IShapeService shapeService)
+        {
+            _strategyResolver = strategies.ToDictionary(s => s.ShapeType);
+            _shapeService = shapeService;
+        }
         public void ShapesMainMenu()
         {
             while (true)
@@ -23,10 +33,10 @@ namespace Shapes.Menu
 
                 switch (userInput)
                 {
-                    case "C - Skapa och beräkna form":
+                    case "Skapa och beräkna form":
                         ChooseShapeMenu();
                         break;
-                    case "R - Visa tidigare uträkningar":
+                    case "Visa tidigare uträkningar":
                         //parallellogram
                         break;
                     case "[maroon]Tillbaka[/]":
@@ -58,17 +68,16 @@ namespace Shapes.Menu
                 switch (userInput)
                 {
                     case "Rektangel":
-                        string shape = "Rektangel";
-                        CreateShapeMenu(shape);
+                        CreateShapeMenu(userInput);
                         break;
                     case "Parallellogram":
-                        //parallellogram
+                        CreateShapeMenu(userInput);
                         break;
                     case "Triangel":
-                        //triangel
+                        CreateShapeMenu(userInput);
                         break;
                     case "Romb":
-                        //Romb
+                        CreateShapeMenu(userInput);
                         break;
                     case "[maroon]Tillbaka[/]":
                         return;
@@ -84,12 +93,29 @@ namespace Shapes.Menu
             Console.Clear();
             Graphics.RenderShapes();
             AnsiConsole.MarkupLine($"[aqua]Du har valt att skapa en {shape}.[/]");
-            var age = AnsiConsole.Ask<int>("[aqua]What's your age?");
 
+            var strategy = _strategyResolver[shape]; // Dictionary eller Autofac Named-resolver
 
-            // Implement the logic to create and calculate the selected shape here
-            // For example, you can prompt the user for dimensions and perform calculations
-            Console.WriteLine("Tryck valfri tangent för att återgå till menyn.");
+            var prompts = strategy.ParameterPrompts;
+            var parameters = new List<double>();
+
+            foreach (var prompt in prompts)
+            {
+                double value = AnsiConsole.Ask<double>($"[aqua]{prompt}[/]:");
+                parameters.Add(value);
+            }
+
+            var area = strategy.CalculateArea(parameters.ToArray());
+            var perimeter = strategy.CalculatePerimeter(parameters.ToArray());
+
+            AnsiConsole.MarkupLine($"[green]Area: {area}[/]");
+            AnsiConsole.MarkupLine($"[green]Omkrets: {perimeter}[/]");
+
+            Console.ReadKey();
+            // Spara till databasen...
+            _shapeService.CreateCalculation(shape, parameters.ToArray(), area, perimeter);
+
+            AnsiConsole.MarkupLine("[grey]Tryck valfri tangent för att återgå till menyn.[/]");
             Console.ReadKey();
         }
     }
