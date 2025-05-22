@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Service.Shapes.Strategy;
 using Shapes.Menu;
 using Spectre.Console;
 
@@ -44,6 +45,7 @@ namespace Shapes
                             }).AsSelf().InstancePerLifetimeScope();
 
                             builder.RegisterType<ShapesMenu>().As<IShapesMenu>().InstancePerLifetimeScope();
+                            builder.RegisterType<RectangleStrategy>().Named<IShapeStrategy>("Rektangel");
                             //builder.RegisterType<RpsRepository>().As<IRpsRepository>().InstancePerLifetimeScope();
                             //builder.RegisterType<RpsService>().As<IRpsService>().InstancePerLifetimeScope();
                             //builder.RegisterType<RpsGame>().As<IRpsGame>().InstancePerLifetimeScope();
@@ -62,7 +64,7 @@ namespace Shapes
                 });
 
             Console.Clear();
-            menu.Show();
+            menu.ShapesMainMenu();
         }
     }
 }
