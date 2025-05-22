@@ -15,11 +15,15 @@ namespace Shapes.Edit
             _strategyResolver = strategies.ToDictionary(s => s.ShapeType);
             _shapeService = shapeService;
         }
-        public void AskForShapeParameters(ShapeCalculation shape)
+        public void AskForShapeParameters(ShapeCalculation shape, bool isCreateNewShape)
         {
             Console.Clear();
             Graphics.RenderShapes();
-            AnsiConsole.MarkupLine($"[aqua]  Du har valt att skapa en {shape.ShapeType}.[/]");
+            if (isCreateNewShape)
+                AnsiConsole.MarkupLine($"[aqua]  Du har valt att skapa en {shape.ShapeType}.[/]");
+            else
+                AnsiConsole.MarkupLine($"[aqua]  Du har valt att redigera en {shape.ShapeType}.[/]");
+            
 
             var strategy = _strategyResolver[shape.ShapeType];
 

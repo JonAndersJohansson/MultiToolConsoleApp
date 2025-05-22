@@ -58,7 +58,7 @@ namespace Shapes.Menu
 
                 var userInput = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()
-                        .Title("[aqua]  Välj form:[/]")
+                        .Title("[aqua]  Välj form att skapa:[/]")
                         .PageSize(10)
                         .MoreChoicesText("  [grey](Pila upp eller ned)[/]")
                         .AddChoices(new[] {
@@ -73,7 +73,7 @@ namespace Shapes.Menu
                     case "Triangel":
                         ShapeCalculation shape = new ShapeCalculation();
                         shape.ShapeType = userInput;
-                        _editShape.AskForShapeParameters(shape);
+                        _editShape.AskForShapeParameters(shape, true);
                         break;
                     case "[maroon]Tillbaka[/]":
                         return;

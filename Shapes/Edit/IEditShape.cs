@@ -4,6 +4,6 @@ namespace Shapes.Edit
 {
     public interface IEditShape
     {
-        void AskForShapeParameters(ShapeCalculation shape);
+        void AskForShapeParameters(ShapeCalculation shape, bool isCreateNewShape);
     }
 }
