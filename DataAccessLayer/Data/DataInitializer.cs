@@ -76,26 +76,6 @@ namespace DataAccessLayer.Data
                 });
             }
 
-            if (!context.RpsGames.Any())
-            {
-                context.RpsGames.AddRange(new[]
-                {
-                    new RPSgame
-                    {
-                        PlayerMove = "Sten",
-                        ComputerMove = "Sax",
-                        Result = "Vinst",
-                        PlayedAt = DateTime.Now.AddDays(-5)
-                    },
-                    new RPSgame
-                    {
-                        PlayerMove = "Sax",
-                        ComputerMove = "Sten",
-                        Result = "Förlust",
-                        PlayedAt = DateTime.Now.AddDays(-4)
-                    }
-                });
-            }
 
             context.SaveChanges();
         }
