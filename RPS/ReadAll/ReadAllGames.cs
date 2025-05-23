@@ -74,10 +74,11 @@ namespace RPS.ReadAll
             int wins = matches.Count(x => x.Result == "Vinst");
             int losses = matches.Count(x => x.Result == "Förlust");
             int draws = matches.Count(x => x.Result == "Oavgjort");
+            var currentWinRatio = _rpsService.GetCurrentWinRatio();
 
             var chart = new BarChart()
                 .Width(60)
-                .Label("[aqua]Resultatstatistik:[/]\n")
+                .Label($"[aqua]Vinstprocent: {currentWinRatio}%:[/]\n")
                 .CenterLabel();
 
             chart.AddItem("Vinster", wins, Color.Green);

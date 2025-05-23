@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer.Models;
 using DataAccessLayer.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Service.RPS.Enum;
 
 namespace Service.RPS
@@ -28,13 +29,24 @@ namespace Service.RPS
                 _ when userInput == botMove => "Oavgjort",
                 _ => "Vinst"
             };
+
+            rpsGame = CalculateWinRatio(rpsGame);
+
             _rpsRepo.AddRPSgame(rpsGame);
 
             return GenerateReturnResult(userInput, botMove);
         }
+
+
         public List<RPSgame> GetAllGames()
         {
             return _rpsRepo.GetAllRPSgames();
+        }
+        public decimal GetCurrentWinRatio()
+        {
+            var lastGame = _rpsRepo.GetLastGame();
+            var currentWinRatio = lastGame.WinRate;
+            return currentWinRatio;
         }
 
         private GameResult GenerateReturnResult(string userInput, string botMove)
@@ -65,6 +77,18 @@ namespace Service.RPS
                 3 => "Påse",
                 _ => throw new ArgumentOutOfRangeException()
             };
+        }
+
+        private RPSgame CalculateWinRatio(RPSgame rpsGame)
+        {
+            int totalGames = _rpsRepo.GetAllRPSgames().Count() + 1;
+
+            int totalWins = _rpsRepo.GetAllRPSgames().Count(x => x.Result == "Vinst") + (rpsGame.Result == "Vinst" ? 1 : 0);
+
+            decimal winRate = totalGames > 0 ? (decimal)totalWins / totalGames * 100 : 0;
+
+            rpsGame.WinRate = Math.Round(winRate, 2);
+            return rpsGame;
         }
     }
 }

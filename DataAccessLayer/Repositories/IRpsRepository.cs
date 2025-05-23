@@ -11,6 +11,7 @@ namespace DataAccessLayer.Repositories
     {
         void AddRPSgame(RPSgame game);
         List<RPSgame> GetAllRPSgames();
+        RPSgame GetLastGame();
         //List<RPSgame> GetAllGames();
         //RPSgame GetGameById(int id);
         //void DeleteGame(int id);

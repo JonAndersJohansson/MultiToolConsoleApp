@@ -29,5 +29,12 @@ namespace DataAccessLayer.Repositories
                 .ToList();
                 
         }
+
+        public RPSgame? GetLastGame()
+        {
+            return _dbContext.RpsGames
+                .OrderByDescending(x => x.PlayedAt)
+                .FirstOrDefault();
+        }
     }
 }

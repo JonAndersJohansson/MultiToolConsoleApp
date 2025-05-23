@@ -17,9 +17,6 @@ namespace RPS.Game
         }
         public void StartGame()
         {
-            //Graphics.DisplayClashingGraphics();
-            //Console.ReadKey();
-
             while (true)
             {
                 var userInput = AnsiConsole.Prompt(
@@ -100,6 +97,16 @@ namespace RPS.Game
                 AnsiConsole.MarkupLine($"\n  Det blev [green]vinst![/] 😎");
             else
                 AnsiConsole.MarkupLine($"\n  Det blev [yellow]oavgjort![/] 🙄");
+
+            var currentWinRatio = _rpsService.GetCurrentWinRatio();
+            if (currentWinRatio != null)
+            {
+                AnsiConsole.MarkupLine($"  Din vinstprocent är: [green]{currentWinRatio}[/] %");
+            }
+            else
+            {
+                AnsiConsole.MarkupLine($"[red]  Ingen vinstprocent hittades.[/]");
+            }
 
             AnsiConsole.MarkupLine("  Tryck på någon tangent för att återgå till menyn...");
 

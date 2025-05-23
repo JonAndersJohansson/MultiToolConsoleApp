@@ -7,5 +7,6 @@ namespace Service.RPS
     {
         GameResult CalculateResult(string userInput);
         List<RPSgame> GetAllGames();
+        decimal GetCurrentWinRatio();
     }
 }
