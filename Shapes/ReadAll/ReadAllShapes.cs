@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer.Models;
 using Service.Shapes;
+using Service.Shapes.Strategy;
 using Shapes.Edit;
 using Shapes.UI;
 using Spectre.Console;
@@ -10,11 +11,13 @@ namespace Shapes.ReadAll
     {
         private readonly IShapeService _shapeService;
         private readonly IEditShape _editShape;
+        private readonly Dictionary<string, IShapeStrategy> _strategyResolver;
 
-        public ReadAllShapes(IShapeService shapeService, IEditShape editShape)
+        public ReadAllShapes(IShapeService shapeService, IEditShape editShape, IEnumerable<IShapeStrategy> strategies)
         {
             _shapeService = shapeService;
             _editShape = editShape;
+            _strategyResolver = strategies.ToDictionary(s => s.ShapeType);
         }
         public void ShowAllShapes()
         {
@@ -64,10 +67,33 @@ namespace Shapes.ReadAll
         {
             Console.Clear();
             Graphics.RenderShapes();
+            var chosenShapeDisplay = string.Format("{0,-14} {1,8:0.00} {2,8:0.00} {3,14}", selected.ShapeType, selected.Area, selected.Perimeter, selected.CalculatedAt.ToShortDateString());
+            AnsiConsole.MarkupLine("\n[aqua][bold]  Vald form         Area     Omkrets   Datum[/][/]");
+            AnsiConsole.MarkupLine($"  {chosenShapeDisplay}\n");
+
+            
+
+            var strategy = _strategyResolver[selected.ShapeType];
+            var prompts = strategy.ParameterPrompts;
+
+            for (int i = 0; i < prompts.Length; i++)
+            {
+                string prompt = prompts[i];
+                double? value = i switch
+                {
+                    0 => selected.Param1,
+                    1 => selected.Param2,
+                    2 => selected.Param3,
+                    _ => null
+                };
+
+                if (value.HasValue)
+                    AnsiConsole.MarkupLine($"  [aqua]{prompt}:[/] {value:0.##}");
+            }
 
             var action = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
-                .Title($"[aqua]  Vad vill du göra med {selected.ShapeType} från {selected.CalculatedAt.ToShortDateString()}?[/]")
+                .Title($"[aqua]\n  Vad vill du göra?[/]")
                 .HighlightStyle("blue")
                 .AddChoices("Ändra", "Ta bort", "[red]Tillbaka[/]")
             );
