@@ -8,7 +8,7 @@
         public double CalculateArea(double[] p)
         {
             if (!IsValidTriangle(p[0], p[1], p[2]))
-                throw new ArgumentException("Ogiltiga sidvärden – kan inte bilda en triangel.");
+                return -88;
 
             double s = (p[0] + p[1] + p[2]) / 2;
             return Math.Sqrt(s * (s - p[0]) * (s - p[1]) * (s - p[2]));

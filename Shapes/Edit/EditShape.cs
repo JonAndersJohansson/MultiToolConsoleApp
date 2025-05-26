@@ -17,43 +17,85 @@ namespace Shapes.Edit
         }
         public void AskForShapeParameters(ShapeCalculation shape, bool isCreateNewShape)
         {
-            Console.Clear();
-            Graphics.RenderShapes();
-            if (isCreateNewShape)
-                AnsiConsole.MarkupLine($"[aqua]  Du har valt att skapa en {shape.ShapeType}.[/]");
-            else
-                AnsiConsole.MarkupLine($"[aqua]  Du har valt att redigera en {shape.ShapeType}.[/]");
-            
-
-            var strategy = _strategyResolver[shape.ShapeType];
-
-            var prompts = strategy.ParameterPrompts;
-            var parameters = new List<double>();
-
-            foreach (var prompt in prompts)
+            while (true)
             {
-                double value = AnsiConsole.Prompt(
-                    new TextPrompt<double>($"\n[aqua]  Ange {prompt}[/]:")
-                        .ValidationErrorMessage("[red]  Fel: Du måste ange ett tal.[/]")
-                        .Validate(input =>
-                            input > 0 ? ValidationResult.Success() :
-                            ValidationResult.Error("[red]  Värdet måste vara större än 0.[/]"))
-                );
+                Console.Clear();
+                Graphics.RenderShapes();
+                if (isCreateNewShape)
+                    AnsiConsole.MarkupLine($"[aqua]  Du har valt att skapa en {shape.ShapeType}.[/][red] 'exit' = Avbryt[/] ");
+                else
+                    AnsiConsole.MarkupLine($"[aqua]  Du har valt att redigera en {shape.ShapeType}.[/]");
 
-                parameters.Add(value);
+
+                var strategy = _strategyResolver[shape.ShapeType];
+
+                var prompts = strategy.ParameterPrompts;
+                var parameters = new List<double>();
+
+                for (int i = 0; i < prompts.Length; i++)
+                {
+                    var prompt = prompts[i];
+
+                    string input = AnsiConsole.Ask<string>($"\n[aqua]  Ange {prompt}:[/]");
+
+                    if (input.Trim().ToLower() == "exit")
+                        return;
+                    //{
+                    //    AnsiConsole.MarkupLine("[yellow]  Avbrutet av användaren.[/]");
+                    //    parameters = null; // eller returnera/bryt ut beroende på din logik
+                    //    break;
+                    //}
+
+                    if (!double.TryParse(input, out double value))
+                    {
+                        AnsiConsole.MarkupLine("[red]  Fel: Du måste ange ett giltigt tal.[/]");
+                        i--; // gör om samma steg
+                        continue;
+                    }
+
+                    if (value <= 0)
+                    {
+                        AnsiConsole.MarkupLine("[red]  Värdet måste vara större än 0.[/]");
+                        i--; // gör om samma steg
+                        continue;
+                    }
+
+                    parameters.Add(value);
+                }
+                //foreach (var prompt in prompts)
+                //{
+                //    double value = AnsiConsole.Prompt(
+                //        new TextPrompt<double>($"\n[aqua]  Ange {prompt}[/]:")
+                //            .ValidationErrorMessage("[red]  Fel: Du måste ange ett tal.[/]")
+                //            .Validate(input =>
+                //                input > 0 ? ValidationResult.Success() :
+                //                ValidationResult.Error("[red]  Värdet måste vara större än 0.[/]"))
+                //    );
+
+                //    parameters.Add(value);
+                //}
+
+
+                var area = Math.Round(strategy.CalculateArea(parameters.ToArray()), 2);
+                var perimeter = Math.Round(strategy.CalculatePerimeter(parameters.ToArray()), 2);
+                if (area == -88)
+                {
+                    AnsiConsole.MarkupLine("[red]\n  Fel: Ogiltiga parametrar för triangel.[/]");
+                    AnsiConsole.MarkupLine("[grey]  Tryck valfri tangent för att försöka igen.[/]");
+                    Console.ReadKey();
+                    continue;
+                }
+
+                AnsiConsole.MarkupLine($"\n[green]  Area: {area}[/]");
+                AnsiConsole.MarkupLine($"[green]  Omkrets: {perimeter}[/]");
+
+                _shapeService.Save(shape, parameters.ToArray(), area, perimeter);
+
+                AnsiConsole.MarkupLine("[grey]  Tryck valfri tangent för att återgå till menyn.[/]");
+                Console.ReadKey();
+                break;
             }
 
-
-            var area = Math.Round(strategy.CalculateArea(parameters.ToArray()), 2);
-            var perimeter = Math.Round(strategy.CalculatePerimeter(parameters.ToArray()), 2);
-
-            AnsiConsole.MarkupLine($"\n[green]  Area: {area}[/]");
-            AnsiConsole.MarkupLine($"[green]  Omkrets: {perimeter}[/]");
-
-            _shapeService.Save(shape, parameters.ToArray(), area, perimeter);
-
-            AnsiConsole.MarkupLine("[grey]  Tryck valfri tangent för att återgå till menyn.[/]");
-            Console.ReadKey();
         }
     }
 }
