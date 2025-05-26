@@ -17,7 +17,9 @@ namespace Shapes.Edit
         }
         public void AskForShapeParameters(ShapeCalculation shape, bool isCreateNewShape)
         {
-            while (true)
+            bool isValidShape = true;
+
+            while (isValidShape)
             {
                 Console.Clear();
                 Graphics.RenderShapes();
@@ -40,41 +42,33 @@ namespace Shapes.Edit
 
                     if (input.Trim().ToLower() == "exit")
                         return;
-                    //{
-                    //    AnsiConsole.MarkupLine("[yellow]  Avbrutet av användaren.[/]");
-                    //    parameters = null; // eller returnera/bryt ut beroende på din logik
-                    //    break;
-                    //}
 
                     if (!double.TryParse(input, out double value))
                     {
-                        AnsiConsole.MarkupLine("[red]  Fel: Du måste ange ett giltigt tal.[/]");
-                        i--; // gör om samma steg
-                        continue;
+                        AnsiConsole.MarkupLine("[red]\n  Fel: Du måste ange ett giltigt tal.[/]");
+                        AnsiConsole.MarkupLine("[grey]  Tryck valfri tangent för att försöka igen.[/]");
+                        Console.ReadKey();
+                        isValidShape = false;
+                        break;
                     }
 
                     if (value <= 0)
                     {
-                        AnsiConsole.MarkupLine("[red]  Värdet måste vara större än 0.[/]");
-                        i--; // gör om samma steg
-                        continue;
+                        AnsiConsole.MarkupLine("[red]\n  Fel: Värdet måste vara större än 0.[/]");
+                        AnsiConsole.MarkupLine("[grey]  Tryck valfri tangent för att försöka igen.[/]");
+                        Console.ReadKey();
+                        isValidShape = false;
+                        break;
                     }
 
                     parameters.Add(value);
                 }
-                //foreach (var prompt in prompts)
-                //{
-                //    double value = AnsiConsole.Prompt(
-                //        new TextPrompt<double>($"\n[aqua]  Ange {prompt}[/]:")
-                //            .ValidationErrorMessage("[red]  Fel: Du måste ange ett tal.[/]")
-                //            .Validate(input =>
-                //                input > 0 ? ValidationResult.Success() :
-                //                ValidationResult.Error("[red]  Värdet måste vara större än 0.[/]"))
-                //    );
-
-                //    parameters.Add(value);
-                //}
-
+                if (!isValidShape)
+                {
+                    isValidShape = true;
+                    continue;
+                }
+                    
 
                 var area = Math.Round(strategy.CalculateArea(parameters.ToArray()), 2);
                 var perimeter = Math.Round(strategy.CalculatePerimeter(parameters.ToArray()), 2);

@@ -20,5 +20,9 @@ namespace DataAccessLayer.Repositories
             _dbContext.ShapeCalculations.Add(shape);
             _dbContext.SaveChanges();
         }
+        public IEnumerable<ShapeCalculation> GetAll()
+        {
+             return _dbContext.ShapeCalculations;
+        }
     }
 }

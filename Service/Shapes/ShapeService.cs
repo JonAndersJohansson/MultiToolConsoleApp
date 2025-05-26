@@ -22,5 +22,9 @@ namespace Service.Shapes
 
             _shapeRepo.Add(shape);
         }
+        public List<ShapeCalculation> GetAllShapes()
+        {
+            return _shapeRepo.GetAll().ToList();
+        }
     }
 }

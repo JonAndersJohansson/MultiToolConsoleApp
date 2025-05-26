@@ -10,6 +10,7 @@ using Service.Shapes;
 using Service.Shapes.Strategy;
 using Shapes.Edit;
 using Shapes.Menu;
+using Shapes.ReadAll;
 using Spectre.Console;
 
 namespace Shapes
@@ -48,6 +49,7 @@ namespace Shapes
                             }).AsSelf().InstancePerLifetimeScope();
 
                             builder.RegisterType<ShapesMenu>().As<IShapesMenu>().InstancePerLifetimeScope();
+                            builder.RegisterType<ReadAllShapes>().As<IReadAllShapes>().InstancePerLifetimeScope();
                             builder.RegisterType<RectangleStrategy>().As<IShapeStrategy>();
                             builder.RegisterType<ParallelogramStrategy>().As<IShapeStrategy>();
                             builder.RegisterType<TriangleStrategy>().As<IShapeStrategy>();

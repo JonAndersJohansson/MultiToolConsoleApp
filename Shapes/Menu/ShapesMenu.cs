@@ -1,7 +1,6 @@
 ﻿using DataAccessLayer.Models;
-using Service.Shapes;
-using Service.Shapes.Strategy;
 using Shapes.Edit;
+using Shapes.ReadAll;
 using Shapes.UI;
 using Spectre.Console;
 
@@ -10,10 +9,12 @@ namespace Shapes.Menu
     public class ShapesMenu : IShapesMenu
     {
         private readonly IEditShape _editShape;
+        private readonly IReadAllShapes _readAllShapes;
 
-        public ShapesMenu(IEditShape editShape)
+        public ShapesMenu(IEditShape editShape, IReadAllShapes readAllShapes)
         {
             _editShape = editShape;
+            _readAllShapes = readAllShapes;
         }
         public void ShapesMainMenu()
         {
@@ -37,7 +38,7 @@ namespace Shapes.Menu
                         ChooseShapeMenu();
                         break;
                     case "Visa tidigare uträkningar":
-                        //ReadAll
+                        _readAllShapes.ShowAllShapes();
                         break;
                     case "[maroon]Tillbaka[/]":
                         Environment.Exit(0);
