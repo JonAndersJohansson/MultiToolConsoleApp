@@ -45,4 +45,5 @@ namespace DataAccessLayer.Repositories
             _dbContext.ShapeCalculations.Remove(shape);
             _dbContext.SaveChanges();
         }
+    }
 }

@@ -95,7 +95,9 @@ namespace Shapes.Edit
         {
             Console.Clear();
             Graphics.RenderShapes();
+
             var chosenShapeDisplay = string.Format("{0,-14} {1,8:0.00} {2,8:0.00} {3,14}", selected.ShapeType, selected.Area, selected.Perimeter, selected.CalculatedAt.ToShortDateString());
+            
             AnsiConsole.MarkupLine("\n[aqua][bold]  Vald form         Area     Omkrets   Datum[/][/]");
             AnsiConsole.MarkupLine($"  {chosenShapeDisplay}\n");
 
@@ -119,7 +121,7 @@ namespace Shapes.Edit
 
             var action = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
-                .Title($"[aqua]\n  Vad vill du göra?[/]")
+                .Title($"[aqua]  Vad vill du göra med denna form?[/]")
                 .HighlightStyle("blue")
                 .AddChoices("Ändra", "Ta bort", "[red]Tillbaka[/]")
             );
@@ -131,7 +133,7 @@ namespace Shapes.Edit
                     break;
                 case "Ta bort":
                     _shapeService.DeleteShape(selected);
-                    AnsiConsole.MarkupLine($"[green]  Form borttagen.[/]\n  [grey]Tryck på någon knapp för att återgå.[/]");
+                    AnsiConsole.MarkupLine($"[green]\n  Form borttagen.[/]\n  [grey]Tryck på någon knapp för att återgå.[/]");
                     Console.ReadKey();
                     break;
                 case "[red]Tillbaka[/]":

@@ -1,5 +1,4 @@
 ﻿using Service.Shapes;
-using Service.Shapes.Strategy;
 using Shapes.Edit;
 using Shapes.UI;
 using Spectre.Console;
@@ -10,25 +9,23 @@ namespace Shapes.ReadAll
     {
         private readonly IShapeService _shapeService;
         private readonly IEditShape _editShape;
-        private readonly Dictionary<string, IShapeStrategy> _strategyResolver;
 
-        public ReadAllShapes(IShapeService shapeService, IEditShape editShape, IEnumerable<IShapeStrategy> strategies)
+        public ReadAllShapes(IShapeService shapeService, IEditShape editShape)
         {
             _shapeService = shapeService;
             _editShape = editShape;
-            _strategyResolver = strategies.ToDictionary(s => s.ShapeType);
         }
         public void ShowAllShapes()
         {
-            var shapes = _shapeService.GetAllShapes();
             int pageSize = 10;
-            int page = 0;
-            int totalPages = (int)Math.Ceiling(shapes.Count / (double)pageSize);
 
             while (true)
             {
                 Console.Clear();
                 Graphics.RenderShapes();
+
+                var shapes = _shapeService.GetAllShapes();
+                int totalPages = (int)Math.Ceiling(shapes.Count / (double)pageSize);
 
                 var formattedChoices = shapes
                     .Select(s => new
