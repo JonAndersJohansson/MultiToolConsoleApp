@@ -20,9 +20,29 @@ namespace DataAccessLayer.Repositories
             _dbContext.ShapeCalculations.Add(shape);
             _dbContext.SaveChanges();
         }
-        public IEnumerable<ShapeCalculation> GetAll()
+        public void Update(ShapeCalculation shape)
         {
-             return _dbContext.ShapeCalculations;
+            if (shape == null)
+            {
+                throw new ArgumentNullException(nameof(shape));
+            }
+            _dbContext.ShapeCalculations.Update(shape);
+            _dbContext.SaveChanges();
         }
-    }
+        public List<ShapeCalculation> GetAll()
+        {
+            return _dbContext.ShapeCalculations
+                .OrderByDescending(s => s.CalculatedAt)
+                .ToList();
+        }
+        public void Delete(int id)
+        {
+            var shape = _dbContext.ShapeCalculations.Find(id);
+            if (shape == null)
+            {
+                throw new KeyNotFoundException($"Shape with ID {id} not found.");
+            }
+            _dbContext.ShapeCalculations.Remove(shape);
+            _dbContext.SaveChanges();
+        }
 }

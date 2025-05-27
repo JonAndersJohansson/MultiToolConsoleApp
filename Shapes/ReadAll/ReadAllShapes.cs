@@ -1,5 +1,4 @@
-﻿using DataAccessLayer.Models;
-using Service.Shapes;
+﻿using Service.Shapes;
 using Service.Shapes.Strategy;
 using Shapes.Edit;
 using Shapes.UI;
@@ -44,7 +43,7 @@ namespace Shapes.ReadAll
                     .Append("[red]Tillbaka[/]")
                     .ToList();
 
-                AnsiConsole.MarkupLine($"[bold aqua]             Tidigare formuträkningar\n  Välj en form (enter) för att ta bort eller ändra.[/]");
+                AnsiConsole.MarkupLine($"[bold aqua]  Tidigare formuträkningar sorterad efter datum\n  Välj en form (enter) för att [red]ta bort[/] eller [yellow]ändra[/][/]");
                 AnsiConsole.MarkupLine("\n[aqua][bold]  Form              Area     Omkrets   Datum[/][/]");
 
                 var selectedDisplay = AnsiConsole.Prompt(
@@ -59,57 +58,7 @@ namespace Shapes.ReadAll
                     return;
 
                 var selected = formattedChoices.First(f => f.Display == selectedDisplay).Data;
-                EditSelectedShape(selected);
-            }
-        }
-
-        private void EditSelectedShape(ShapeCalculation selected)
-        {
-            Console.Clear();
-            Graphics.RenderShapes();
-            var chosenShapeDisplay = string.Format("{0,-14} {1,8:0.00} {2,8:0.00} {3,14}", selected.ShapeType, selected.Area, selected.Perimeter, selected.CalculatedAt.ToShortDateString());
-            AnsiConsole.MarkupLine("\n[aqua][bold]  Vald form         Area     Omkrets   Datum[/][/]");
-            AnsiConsole.MarkupLine($"  {chosenShapeDisplay}\n");
-
-            
-
-            var strategy = _strategyResolver[selected.ShapeType];
-            var prompts = strategy.ParameterPrompts;
-
-            for (int i = 0; i < prompts.Length; i++)
-            {
-                string prompt = prompts[i];
-                double? value = i switch
-                {
-                    0 => selected.Param1,
-                    1 => selected.Param2,
-                    2 => selected.Param3,
-                    _ => null
-                };
-
-                if (value.HasValue)
-                    AnsiConsole.MarkupLine($"  [aqua]{prompt}:[/] {value:0.##}");
-            }
-
-            var action = AnsiConsole.Prompt(
-                new SelectionPrompt<string>()
-                .Title($"[aqua]\n  Vad vill du göra?[/]")
-                .HighlightStyle("blue")
-                .AddChoices("Ändra", "Ta bort", "[red]Tillbaka[/]")
-            );
-
-            switch (action)
-            {
-                case "Ändra":
-                    _editShape.AskForShapeParameters(selected, false);
-                    break;
-                case "Ta bort":
-                    //_shapeService.DeleteShape(selected);
-                    AnsiConsole.MarkupLine($"[bold aqua]  Form borttagen. Tryck på någon knapp för att återgå...[/]");
-                    Console.ReadKey();
-                    break;
-                case "[red]Tillbaka[/]":
-                    break;
+                _editShape.EditSelectedShape(selected);
             }
         }
     }

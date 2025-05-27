@@ -5,6 +5,8 @@ namespace DataAccessLayer.Repositories
     public interface IShapeRepository
     {
         void Add(ShapeCalculation shape);
-        IEnumerable<ShapeCalculation> GetAll();
+        void Delete(int id);
+        List<ShapeCalculation> GetAll();
+        void Update(ShapeCalculation shape);
     }
 }

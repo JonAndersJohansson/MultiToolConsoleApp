@@ -29,7 +29,7 @@ namespace Shapes.Menu
                         .PageSize(10)
                         .MoreChoicesText("  [grey](Pila upp eller ned)[/]")
                         .AddChoices(new[] {
-                            "Skapa och beräkna form", "Visa tidigare uträkningar", "[maroon]Tillbaka[/]",
+                            "Skapa och beräkna form", "Visa tidigare uträkningar, ta bort eller ändra", "[maroon]Tillbaka[/]",
                         }));
 
                 switch (userInput)
@@ -37,7 +37,7 @@ namespace Shapes.Menu
                     case "Skapa och beräkna form":
                         ChooseShapeMenu();
                         break;
-                    case "Visa tidigare uträkningar":
+                    case "Visa tidigare uträkningar, ta bort eller ändra":
                         _readAllShapes.ShowAllShapes();
                         break;
                     case "[maroon]Tillbaka[/]":
