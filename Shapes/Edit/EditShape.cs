@@ -1,6 +1,6 @@
 ﻿using DataAccessLayer.Models;
-using Service.Shapes.Strategy;
 using Service.Shapes;
+using Service.Shapes.Strategy;
 using Shapes.UI;
 using Spectre.Console;
 
@@ -15,20 +15,22 @@ namespace Shapes.Edit
             _strategyResolver = strategies.ToDictionary(s => s.ShapeType);
             _shapeService = shapeService;
         }
-        public void AskForShapeParameters(ShapeCalculation shape, bool isCreateNewShape)
+        public void AskForShapeParameters(ShapeCalculation shape, bool isNewShape)
         {
             bool isValidShape = true;
 
             while (isValidShape)
             {
-                if (isCreateNewShape)
-                {
-                    Console.Clear();
-                    Graphics.RenderShapes();
+                Console.Clear();
+                Graphics.RenderShapes();
+
+                if (isNewShape)
                     AnsiConsole.MarkupLine($"[aqua]  Du har valt att skapa en [white]{shape.ShapeType}[/].[/][red] 'exit' = Avbryt[/]\n");
-                }
                 else
-                    AnsiConsole.MarkupLine($"[aqua]\n  Ändrar. Ange nya värden.[/][red] 'exit' = Avbryt[/]\n");
+                {
+                    DisplayShapeProps(shape);
+                    AnsiConsole.MarkupLine($"[aqua]\n  Ändrar [white]{shape.ShapeType}[/]. Ange nya värden.[/][red] 'exit' = Avbryt[/]\n");
+                }
 
                 var strategy = _strategyResolver[shape.ShapeType];
 
@@ -85,7 +87,7 @@ namespace Shapes.Edit
                 AnsiConsole.MarkupLine($"[green]  Omkrets: {perimeter}[/]");
                 AnsiConsole.MarkupLine($"[gray]\n  Tryck valfri tangent för att återgå till menyn.[/]");
 
-                _shapeService.Save(shape, parameters.ToArray(), area, perimeter, isCreateNewShape);
+                _shapeService.Save(shape, parameters.ToArray(), area, perimeter, isNewShape);
 
                 Console.ReadKey();
                 break;
@@ -96,8 +98,33 @@ namespace Shapes.Edit
             Console.Clear();
             Graphics.RenderShapes();
 
+            DisplayShapeProps(selected);
+
+            var action = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                .Title($"[aqua]\n  Vad vill du göra med denna form?[/]")
+                .HighlightStyle("blue")
+                .AddChoices("Ändra", "Ta bort", "[red]Tillbaka[/]")
+            );
+
+            switch (action)
+            {
+                case "Ändra":
+                    AskForShapeParameters(selected, false);
+                    break;
+                case "Ta bort":
+                    _shapeService.DeleteShape(selected);
+                    AnsiConsole.MarkupLine($"[green]\n  Form borttagen.[/]\n  [grey]Tryck på någon knapp för att återgå.[/]");
+                    Console.ReadKey();
+                    break;
+                case "[red]Tillbaka[/]":
+                    break;
+            }
+        }
+        private void DisplayShapeProps(ShapeCalculation selected)
+        {
             var chosenShapeDisplay = string.Format("{0,-14} {1,8:0.00} {2,8:0.00} {3,14}", selected.ShapeType, selected.Area, selected.Perimeter, selected.CalculatedAt.ToShortDateString());
-            
+
             AnsiConsole.MarkupLine("\n[aqua][bold]  Vald form         Area     Omkrets   Datum[/][/]");
             AnsiConsole.MarkupLine($"  {chosenShapeDisplay}\n");
 
@@ -117,27 +144,6 @@ namespace Shapes.Edit
 
                 if (value.HasValue)
                     AnsiConsole.MarkupLine($"  [aqua]{prompt}:[/] {value:0.##}");
-            }
-
-            var action = AnsiConsole.Prompt(
-                new SelectionPrompt<string>()
-                .Title($"[aqua]  Vad vill du göra med denna form?[/]")
-                .HighlightStyle("blue")
-                .AddChoices("Ändra", "Ta bort", "[red]Tillbaka[/]")
-            );
-
-            switch (action)
-            {
-                case "Ändra":
-                    AskForShapeParameters(selected, false);
-                    break;
-                case "Ta bort":
-                    _shapeService.DeleteShape(selected);
-                    AnsiConsole.MarkupLine($"[green]\n  Form borttagen.[/]\n  [grey]Tryck på någon knapp för att återgå.[/]");
-                    Console.ReadKey();
-                    break;
-                case "[red]Tillbaka[/]":
-                    break;
             }
         }
     }
