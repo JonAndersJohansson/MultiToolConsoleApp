@@ -1,0 +1,95 @@
+Loggbok Individuell inlämning - Jon Johansson, 2025
+
+Trello: https://trello.com/b/PtV6ETBQ/consoleapp
+
+	Tisdag 6 Maj:
+
+Kravet inför Onsdag och det första individuella SprintPlanning-mötet med Richard är detta:
+1. En Kanban Board (Project 1)
+2. En (så gott som) komplett Product Backlog
+3. Ett förslag på Sprint 1 Backlog
+
+Jag fokuserar på att göra min Kanban-board i Trello. I Product Backlog försöker jag strukturera upp Epics och Tasks. Detta är lite klurigt då jag vill kunna arbeta med mina "Tasks" på ett så logiskt och effektivt sätt som möjligt. Jag läser igenom kraven för inlämningen och tittar närmre på Spectre.Consoles olika funktioner då jag vill implementera detta i min app. Jag har lite erfarenhet av Spectre.Console ifrån "Hotellappen" då jag använde mig av kalendern där. Nu vill jag använda det mer och jag får känslan av att Spectre.Console både kommer göra kodningen lättare och resultatet snyggare. Jag skapar min Solution och börjar så smått koda. Min plan för arkitekturen är:
+
+ConsoleProject (Console App) - Program.cs, MainMenu UI/UX, appsettings.json
+Service (Class Library) - CalculatorService, ShapeService, RockPaperScissorService + dess interfaces
+DAL (Class Library) - Repository, DataInitializer, DbContext, Models
+Calculator (Class Library) - Menyer UI/UX
+Shapes (Class Library) - Menyer UI/UX
+RockPaperScissors (Class Library) - Menyer UI/UX
+
+	Onsdag 7 Maj:
+
+Efter Mötet med Richard står det klart att arkitekturen skall ha 6 lager ungefär likt detta:
+
+Client (Console App) - Program.cs, MainMenu UI/UX
+Service (Class Library) - CalculatorService, ShapeService, RockPaperScissorService + dess interfaces
+DAL (Class Library) - Repository, DataInitializer, DbContext, Models
+Calculator (Console App) - Menyer UI/UX, Program.cs, appsettings.json
+Shapes (Console App) - Menyer UI/UX, Program.cs, appsettings.json
+RPS (Console App) - Menyer UI/UX,Program.cs, appsettings.json
+
+Nästa vecka skall Client fungera (Huvudmenyn) samt en databas skall finnas.
+
+Jag börjar fundera på hur man startar en ConsolApp genom en annan ConsoleApp. Jag antar att Client inte behöver ha någon kontakt med DB men de andra "apparna" kommer behöva det. Jag behöver bara Client för UI så jag tar bort de flesta nuget-paketen, behåller bara Spectre.Console för huvudmenyns logik. Imorgon tänkte jag skapa RPS och försöka komma på hur jag skall starta den igenom Client.
+
+	Torsdag 8 Maj
+
+Jag ändrar min arkitektur för att det skall passa med flera Console App's.
+Client skall bara hantera navigation till övriga appar, därmed blir den statisk och behöver bara en NuGet - Spectre.Console. Jag gör en enkel meny och en enkel ASCII-grafik för Client. För att man skall kunna starta de andra apparna genom Client så behöver de övriga apparnas .exe-filer existera, dvs de behöver ha blivit "buildade". För att säkerställa att den som laddar ned Solution första gången förstår detta så bör det framgå i ReadMe. Innan Client kan uppfylla sin funktion som "huvudmeny" så måste hela Solution buildas först. De övriga apparna hanterar AppDbContext och varsin appsettings.json samt anropar varför sig samma "migrate" och "seed" funktion i DAL, dvs databasen kommer inte skapas förrän någon av apparna RPS, Shapes, Calculator startas.
+Jag prövar detta med RPS och får det att fungera. I kravet antyder det att man skall spara "(genomsnittet av samtliga spel som någonsin har spelats) ska sparas i en ny tabell". Det låter som att man skall spara genomsnittet i en egen tabell men eftersom "matcher" skall sparas och kunna visas också så bör "genomsnittet" räknas ut genom att stämma av mot spelade matcher. Detta förhindrar redundansen tänker jag?
+Jag gör Main() i RPS async, då det tar lite tid att starta upp och då använder jag Spectre.Console "Status-snurra" för att få det att se lite snyggare ut.
+Jag gör huvudmenyn i RPS och fixar lite enkel ASCII-grafik för att det skall synas att det är en egen app..
+
+
+	Fredag 9 Maj
+
+Börjar dagen med Gruppmöte med Rohan. Det pågår i ca en och en halv timme.
+Jag skapar service-lagret till RPS och funderar på om man skulle kunna göra det lite roligare med grafik.
+Jag sitter och går några "snygga" ASCII-händer som jag tänkte använda i grafiken.
+
+
+	Onsdag 14 Maj
+
+Spring Meeting med Richard:
+Det framgår att jag skulle ha gjort en "inne i RPS"-logik i alla de 3 apparna. Jag hade bara detta i RPS. I övrigt framkom att jag skall ha ca 15-25 commits / kort och vecka.
+Nästa vecka skall man kunna komma till alla consoller (placeholders) förutom RPS som skall vara helt klart.
+Nästa Möte sker på fredag nästa vecka. Jag jobbar inget med projektet idag.
+
+
+	Torsdag 15 Maj
+
+Jag börjar med RPS menyval och fokuserar på spelet och användarens "drag". Jag skickar in användarens val till Servicelagret där ett spel "skapas" och datorns "drag" skapas med Random. Skapar Repository för att spara resultatet.
+
+	Fredag 16 Maj
+
+Jag sammanställer logiken för att visa grafiken för resultatet, det finns 9 olika potentiella resultat så det blir 9 olika "grafiker" som kan visas. Jag fixar även ReadAll sidan, med hjälp av Spectre.Console. Genomsnittet visas med en "BarChart" och tidigare matcher i "Table". Jag upptäckte även att om man la "Table" i en "Panel" kunde man ge den lite snygg padding. Det gick enkelt och blev snyggt! Reglerna visas som statisk text via egen "länk" i menyn. RPS är färdig.
+
+	Onsdag 21 Maj
+
+Jag skapar en branch för vardera app och ser till att man kan komma till dem igenom Client (detta va inte gjort inför förra SprintMeeting). De får varsin appsetting.json som alla är identiska och en placeholder Program.cs. Merge into master.
+Därefter börjar jag med Shapes-appen. Jag gör huvudmenyn och en enkel ASCII-Grafik så användaren ser att de kommit till den nya appen.
+
+	Torsdag 22 Maj
+
+Huvudmenyn visar 3 val: "Skapa och beräkna form", "Visa tidigare uträkningar", Tillbaka.
+Tanken är att Skapa och beräkna skall reprecentera "C" i CRUD och "Visa tidigare uträkningar" skall hantera de övriga. Efter en del refactoring så bestämmer jag mig för att Metoden som frånar användaren om formernas värden skall användas till både "C" och "U". Men jag fokuserar på "C" till en början och gör klar logiken för uträkningarna i de olika "strategierna" (formerna). Triangelformen kräver en validering för att användaren inte skall kunna mata in en ogiltig triangel. Skapar Service och Repository. Jag funderar ett tag på om man ska ha DTOs, men kommer fram till att det borde vara "överkurs". När man skall skapa en form får man välja utifrån listan men hjälp av en "SelectionPrompt". Jag ser till att det går att spara en uträkning till DB.
+
+	Fredag 23 Maj
+
+Sprint meeting med Richard:
+Framkommer att jag måste ha WinRation i RpsGame. WinRatio skall visa % och ta hänsyn till alla tidigare spel. Det skall visas vid avslutat spel men även i Statistiksidan. Jag fixar detta med en gång. Jag löser det genom att innan spelet sparas till DB så kontrolleras alla tidigare spelresultat och på det sättet får RpsGame.WinRatio sitt värde (decimal pga procent). Därefter sparas det till databasen. När WinRatio skall visas för användaren hämtas det senaste spelet och dess WinRatio skrivs ut. Committar och mergar in till develop, trevlig helg.
+
+	Måndag 26 Maj
+
+Jag bryter ut logiken för "Create" och "Update" och stoppar dem i en egen klass som jag kallar för EditShape. Tanken är att man skall kunna använda samma metod för att skapa och uppdatera en form med hjälp av en bool. Metoden som fråga användaren och som ger formen sina parametrar använder Strategy och säkerställer att jag använder och hämtar rätt logik för respektive form. Jag säkerställer felhantering i skapandet av en ny form. Jag skapar ReadAllShapes där man kan stega igenom alla former som hämtas ifrån DB. Först tänkte jag att jag skulle ha en kombinerad "Table" och "SelectionPrompt" men det visade sig inte fungera. Jag fick nöja mig med enbart "SelectionPrompt" och "fuska" till det så det liknar en tabell. "Tillbaka" kommer att finns i botten av listan vilket känns ok, dock kan det bli omständligt om listan i framtiden  blir väldigt lång. Jag ville använda mig av "SelectionPrompt" för nice UI och för att säkerställa att användaren inte kan göra fel. Användaren kan då välja att ändra eller ta bort en form genom att välja den i listan.
+
+	Tisdag 27 Maj 
+
+Jag fortsätter med att om användaren väljer en form i listan så skall den få 3 val; Ändra, Ta bort eller Tillbaka. Jag börjar med "Update" och det visar sig enkelt att implementera i samma metod som "Create". Men hjälp av en bool så kan jag justera informationen till användaren beroende på om det gäller "Create" eller "Update". Boolen skickas dessutom med till service-lagret för att säkerställa att formen skapas eller uppdateras på rätt sätt vidare i Repository. Det går smidigt. Då återstår bara att "Ta bort" en form. Det är enkelt fixat, dock får jag säkerställa att när logiken återgår till ReadAll (ShowAllShapes) så är listan uppdaterad. Lite städning och appen Shapes är klar.
+
+
+	Måndag 2 Maj
+
+Jag har bestämt mig för att implementera DTO's i Shapes och RPS för att följa så god arkitektur jag bara kan. Till skillnad ifrån Bank-Appen kommer jag ha DTO's i DAL istället för Service. Detta för att kunna "spegla" entiteten när jag hämtar den i Repository. Jag skapar en branch för detta. Jag skapar objekt av DTO's i Repository vid "hämtning" av entitet genom att spegla entiteten mot DTO. När jag sparar/uppdaterar mappar jag manuellt i Service-lagret innan jag skickar till Repository. Det visade sig vara enklare än vad jag trodde och det gick smidigt.
+Jag Fortsätter med Calculator. Jag gör en enkel ASCII-grafik för menyn och huvudmenyns val. Jag kopierar i stort Shapes. Jag börjar med "Skapa" och använder samma arkitektur som i Shapes. Tar input ifrån användaren men anropar strategy först efter inputs. Jag tänkte att det skulle vara logiskt att be om nummer 1 först, därefter operator, därefter nummer2. Om användaren anger "roten ur" operatorn så behöver den inte fylla i nummer 2 utan resultatet räknas ut direkt. Jag behöver säkerställa att om "operator" är "/" eller "&" så kan inte Number2 vara 0 i dess strategier. Strategierna är det som tar längs tid, annars så kopierar jag stora delar av Shapes. ReadAll följer samma flöde som i Shapes och skrivs ut på samma sätt. Delete och Update lika så, Create och Update delar metod för editering. Efter lite småfixt och buggkontroller är appen klar.
