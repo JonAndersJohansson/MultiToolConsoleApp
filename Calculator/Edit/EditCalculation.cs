@@ -1,5 +1,6 @@
 ﻿using Calculator.UI;
 using DataAccessLayer.DTOs;
+using Service.Calculator.Strategy;
 using Spectre.Console;
 
 namespace Calculator.Edit
