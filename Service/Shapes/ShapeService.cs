@@ -21,10 +21,9 @@ namespace Service.Shapes
             shapeDto.Perimeter = perimeter;
             shapeDto.CalculatedAt = DateTime.Now;
 
-            // Mappa DTO till Entitet
             var shapeEntity = new ShapeCalculation
             {
-                Id = shapeDto.Id, // Viktigt vid update
+                Id = shapeDto.Id, // update
                 ShapeType = shapeDto.ShapeType,
                 Param1 = shapeDto.Param1,
                 Param2 = shapeDto.Param2,

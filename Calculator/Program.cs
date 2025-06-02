@@ -2,6 +2,7 @@
 using Autofac.Extensions.DependencyInjection;
 using Calculator.Edit;
 using Calculator.Menu;
+using Calculator.ReadAll;
 using DataAccessLayer.Data;
 using DataAccessLayer.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -49,7 +50,7 @@ namespace Calculator
                             }).AsSelf().InstancePerLifetimeScope();
 
                             builder.RegisterType<CalculatorMenu>().As<ICalculatorMenu>().InstancePerLifetimeScope();
-                            //builder.RegisterType<ReadAllCalculation>().As<IReadAllCalculations>().InstancePerLifetimeScope();
+                            builder.RegisterType<ReadAllCalculations>().As<IReadAllCalculations>().InstancePerLifetimeScope();
                             builder.RegisterType<AdditionStrategy>().As<ICalculatorStrategy>();
                             builder.RegisterType<DivisionStrategy>().As<ICalculatorStrategy>();
                             builder.RegisterType<ModulusStrategy>().As<ICalculatorStrategy>();

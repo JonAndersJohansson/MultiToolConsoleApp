@@ -147,7 +147,7 @@ namespace Calculator.Edit
                     AskForCalcParameters(selected, false);
                     break;
                 case "Ta bort":
-                    //_calcService.DeleteCalc(selected);
+                    _calcService.DeleteCalculation(selected);
                     AnsiConsole.MarkupLine($"[green]\n  Uträkning borttagen.[/]\n  [grey]Tryck på någon knapp för att återgå.[/]");
                     Console.ReadKey();
                     break;

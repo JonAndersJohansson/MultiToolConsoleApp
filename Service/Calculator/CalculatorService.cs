@@ -36,5 +36,16 @@ namespace Service.Calculator
             else
                 _calcRepo.Update(calcEntity);
         }
+        public List<CalculatorOperationDto> GetAllCalculations()
+        {
+            return _calcRepo.GetAll().ToList();
+        }
+        public void DeleteCalculation(CalculatorOperationDto selected)
+        {
+            if (selected == null)
+                throw new ArgumentNullException(nameof(selected), "Selected shapeDto cannot be null.");
+
+            _calcRepo.Delete(selected.Id);
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Calculator.Edit;
+using Calculator.ReadAll;
 using Calculator.UI;
 using DataAccessLayer.DTOs;
 using Spectre.Console;
@@ -8,10 +9,12 @@ namespace Calculator.Menu
     public class CalculatorMenu : ICalculatorMenu
     {
         private readonly IEditCalculation _editCalculation;
+        private readonly IReadAllCalculations _readAllCalculations;
 
-        public CalculatorMenu(IEditCalculation editCalculation)
+        public CalculatorMenu(IEditCalculation editCalculation, IReadAllCalculations readAllCalculations)
         {
             _editCalculation = editCalculation;
+            _readAllCalculations = readAllCalculations;
         }
         public void CalculatorMainMenu()
         {
@@ -36,7 +39,7 @@ namespace Calculator.Menu
                         _editCalculation.AskForCalcParameters(calcDto, true);
                         break;
                     case "Visa tidigare uträkningar, ta bort eller ändra":
-                        //_readAllCalculations.ShowAllCalculations();
+                        _readAllCalculations.ShowAllCalculations();
                         break;
                     case "[maroon]Tillbaka[/]":
                         Environment.Exit(0);
