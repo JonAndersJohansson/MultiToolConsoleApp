@@ -1,4 +1,4 @@
-﻿using DataAccessLayer.Models;
+﻿using DataAccessLayer.DTOs;
 using Service.RPS.Enum;
 
 namespace Service.RPS
@@ -6,7 +6,7 @@ namespace Service.RPS
     public interface IRpsService
     {
         GameResult CalculateResult(string userInput);
-        List<RPSgame> GetAllGames();
+        List<RPSgameDto> GetAllGames();
         decimal GetCurrentWinRatio();
     }
 }

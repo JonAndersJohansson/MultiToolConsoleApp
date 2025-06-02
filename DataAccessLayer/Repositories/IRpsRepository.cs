@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.Models;
+﻿using DataAccessLayer.DTOs;
+using DataAccessLayer.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +11,7 @@ namespace DataAccessLayer.Repositories
     public interface IRpsRepository
     {
         void AddRPSgame(RPSgame game);
-        List<RPSgame> GetAllRPSgames();
-        RPSgame GetLastGame();
-        //List<RPSgame> GetAllGames();
-        //RPSgame GetGameById(int id);
-        //void DeleteGame(int id);
-        //void UpdateGame(RPSgame game);
+        List<RPSgameDto> GetAllRPSgames();
+        RPSgameDto GetLastGame();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer.Data;
+using DataAccessLayer.DTOs;
 using DataAccessLayer.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -22,18 +23,35 @@ namespace DataAccessLayer.Repositories
             _dbContext.RpsGames.Add(game);
             _dbContext.SaveChanges();
         }
-        public List<RPSgame> GetAllRPSgames()
+        public List<RPSgameDto> GetAllRPSgames()
         {
             return _dbContext.RpsGames
                 .OrderByDescending(x => x.PlayedAt)
+                .Select(x => new RPSgameDto
+                {
+                    Id = x.Id,
+                    PlayerMove = x.PlayerMove,
+                    ComputerMove = x.ComputerMove,
+                    Result = x.Result,
+                    PlayedAt = x.PlayedAt,
+                    WinRate = x.WinRate
+                })
                 .ToList();
-                
         }
 
-        public RPSgame? GetLastGame()
+        public RPSgameDto? GetLastGame()
         {
             return _dbContext.RpsGames
                 .OrderByDescending(x => x.PlayedAt)
+                .Select(x => new RPSgameDto
+                {
+                    Id = x.Id,
+                    PlayerMove = x.PlayerMove,
+                    ComputerMove = x.ComputerMove,
+                    Result = x.Result,
+                    PlayedAt = x.PlayedAt,
+                    WinRate = x.WinRate
+                })
                 .FirstOrDefault();
         }
     }

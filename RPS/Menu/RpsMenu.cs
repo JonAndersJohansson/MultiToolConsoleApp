@@ -1,7 +1,6 @@
 ﻿using RPS.Game;
 using RPS.ReadAll;
 using RPS.UI;
-using Service.RPS;
 using Spectre.Console;
 
 namespace RPS.Menu

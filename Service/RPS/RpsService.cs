@@ -1,6 +1,6 @@
-﻿using DataAccessLayer.Models;
+﻿using DataAccessLayer.DTOs;
+using DataAccessLayer.Models;
 using DataAccessLayer.Repositories;
-using Microsoft.EntityFrameworkCore;
 using Service.RPS.Enum;
 
 namespace Service.RPS
@@ -38,7 +38,7 @@ namespace Service.RPS
         }
 
 
-        public List<RPSgame> GetAllGames()
+        public List<RPSgameDto> GetAllGames()
         {
             return _rpsRepo.GetAllRPSgames();
         }

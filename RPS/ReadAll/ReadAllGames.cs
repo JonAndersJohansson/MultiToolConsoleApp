@@ -1,4 +1,4 @@
-﻿using DataAccessLayer.Models;
+﻿using DataAccessLayer.DTOs;
 using RPS.UI;
 using Service.RPS;
 using Spectre.Console;
@@ -39,7 +39,7 @@ namespace RPS.ReadAll
             }
         }
 
-        private void ShowTable(List<RPSgame> matches, int page, int pageSize)
+        private void ShowTable(List<RPSgameDto> matches, int page, int pageSize)
         {
             var currentPage = matches.Skip(page * pageSize).Take(pageSize).ToList();
             var totalPages = (int)Math.Ceiling(matches.Count / (double)pageSize);
@@ -69,7 +69,7 @@ namespace RPS.ReadAll
             AnsiConsole.Write(panel);
         }
 
-        private void ShowChart(List<RPSgame> matches)
+        private void ShowChart(List<RPSgameDto> matches)
         {
             int wins = matches.Count(x => x.Result == "Vinst");
             int losses = matches.Count(x => x.Result == "Förlust");

@@ -1,9 +1,7 @@
-﻿using RPS.Menu;
-using RPS.UI;
+﻿using RPS.UI;
 using Service.RPS;
 using Service.RPS.Enum;
 using Spectre.Console;
-using System.ComponentModel;
 
 namespace RPS.Game
 {
