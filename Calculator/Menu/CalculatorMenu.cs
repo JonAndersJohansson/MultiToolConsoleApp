@@ -51,40 +51,5 @@ namespace Calculator.Menu
                 }
             }
         }
-        //public void ChooseShapeMenu()
-        //{
-        //    while (true)
-        //    {
-        //        Console.Clear();
-        //        Graphics.RenderShapes();
-
-        //        var userInput = AnsiConsole.Prompt(
-        //            new SelectionPrompt<string>()
-        //                .Title("[aqua]  Välj form att skapa:[/]")
-        //                .PageSize(10)
-        //                .MoreChoicesText("  [grey](Pila upp eller ned)[/]")
-        //                .AddChoices(new[] {
-        //                    "Rektangel", "Parallellogram", "Triangel", "Romb", "[maroon]Tillbaka[/]",
-        //                }));
-
-        //        switch (userInput)
-        //        {
-        //            case "Rektangel":
-        //            case "Parallellogram":
-        //            case "Romb":
-        //            case "Triangel":
-        //                ShapeCalculationDto shapeDto = new ShapeCalculationDto();
-        //                shapeDto.ShapeType = userInput;
-        //                _editShape.AskForShapeParameters(shapeDto, true);
-        //                break;
-        //            case "[maroon]Tillbaka[/]":
-        //                return;
-        //            default:
-        //                Console.WriteLine("Ogiltigt val. Tryck valfri tangent.");
-        //                Console.ReadKey();
-        //                break;
-        //        }
-        //    }
-        //}
     }
 }

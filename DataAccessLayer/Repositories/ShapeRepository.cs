@@ -63,7 +63,7 @@ namespace DataAccessLayer.Repositories
             var shape = _dbContext.ShapeCalculations.Find(id);
             if (shape == null)
             {
-                throw new KeyNotFoundException($"Shape with ID {id} not found.");
+                throw new KeyNotFoundException($"Form med ID: {id} hittades inte.");
             }
             _dbContext.ShapeCalculations.Remove(shape);
             _dbContext.SaveChanges();

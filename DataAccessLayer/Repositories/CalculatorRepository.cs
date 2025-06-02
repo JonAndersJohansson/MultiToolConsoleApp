@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer.Data;
+using DataAccessLayer.DTOs;
 using DataAccessLayer.Models;
 
 namespace DataAccessLayer.Repositories
@@ -35,6 +36,32 @@ namespace DataAccessLayer.Repositories
             existingCalc.Result = calcEntity.Result;
             existingCalc.PerformedAt = calcEntity.PerformedAt;
 
+            _dbContext.SaveChanges();
+        }
+        public List<CalculatorOperationDto> GetAll()
+        {
+            return _dbContext.CalculatorOperations
+                .OrderByDescending(s => s.PerformedAt)
+                .Select(c => new CalculatorOperationDto
+                {
+                    Id = c.Id,
+                    Number1 = c.Number1,
+                    Number2 = c.Number2,
+                    Operator = c.Operator,
+                    Result = c.Result,
+                    PerformedAt = c.PerformedAt
+                })
+                .ToList();
+        }
+
+        public void Delete(int id)
+        {
+            var calc = _dbContext.CalculatorOperations.Find(id);
+            if (calc == null)
+            {
+                throw new KeyNotFoundException($"Uträkning med ID {id} hittades inte.");
+            }
+            _dbContext.CalculatorOperations.Remove(calc);
             _dbContext.SaveChanges();
         }
     }
