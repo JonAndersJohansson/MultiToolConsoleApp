@@ -1,4 +1,5 @@
-﻿using Calculator.UI;
+﻿using Calculator.Edit;
+using Calculator.UI;
 using DataAccessLayer.DTOs;
 using Spectre.Console;
 
@@ -6,6 +7,12 @@ namespace Calculator.Menu
 {
     public class CalculatorMenu : ICalculatorMenu
     {
+        private readonly IEditCalculation _editCalculation;
+
+        public CalculatorMenu(IEditCalculation editCalculation)
+        {
+            _editCalculation = editCalculation;
+        }
         public void CalculatorMainMenu()
         {
             while (true)
@@ -26,8 +33,7 @@ namespace Calculator.Menu
                 {
                     case "Skapa uträkning":
                         CalculatorOperationDto calcDto = new CalculatorOperationDto();
-                        //_editCalculation.AskForCalcParameters(calcDto, true);
-                        break;
+                        _editCalculation.AskForCalcParameters(calcDto, true);
                         break;
                     case "Visa tidigare uträkningar, ta bort eller ändra":
                         //_readAllCalculations.ShowAllCalculations();
