@@ -1,11 +1,15 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using Calculator.Edit;
+using Calculator.Menu;
 using DataAccessLayer.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Calculator.Menu;
+using Service.Calculator;
+using Service.Calculator.Strategy;
+using Service.Shapes.Strategy;
 using Spectre.Console;
 
 namespace Calculator
@@ -44,10 +48,16 @@ namespace Calculator
                             }).AsSelf().InstancePerLifetimeScope();
 
                             builder.RegisterType<CalculatorMenu>().As<ICalculatorMenu>().InstancePerLifetimeScope();
-                            //builder.RegisterType<RpsRepository>().As<IRpsRepository>().InstancePerLifetimeScope();
-                            //builder.RegisterType<RpsService>().As<IRpsService>().InstancePerLifetimeScope();
-                            //builder.RegisterType<RpsGame>().As<IRpsGame>().InstancePerLifetimeScope();
-                            //builder.RegisterType<ReadAllGames>().As<IReadAllGames>().InstancePerLifetimeScope();
+                            //builder.RegisterType<ReadAllCalculation>().As<IReadAllCalculations>().InstancePerLifetimeScope();
+                            builder.RegisterType<AdditionStrategy>().As<ICalculatorStrategy>();
+                            builder.RegisterType<DivisionStrategy>().As<ICalculatorStrategy>();
+                            builder.RegisterType<ModulusStrategy>().As<ICalculatorStrategy>();
+                            builder.RegisterType<MultiplicationStrategy>().As<ICalculatorStrategy>();
+                            builder.RegisterType<SquareRootStrategy>().As<ICalculatorStrategy>();
+                            builder.RegisterType<SubtractionStrategy>().As<ICalculatorStrategy>();
+                            //builder.RegisterType<CalculatorRepository>().As<ICalculatorRepository>().InstancePerLifetimeScope();
+                            builder.RegisterType<CalculatorService>().As<ICalculatorService>().InstancePerLifetimeScope();
+                            builder.RegisterType<EditCalculation>().As<IEditCalculation>().InstancePerLifetimeScope();
                         })
                         .Build();
 

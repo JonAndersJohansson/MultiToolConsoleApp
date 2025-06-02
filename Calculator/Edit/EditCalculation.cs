@@ -1,5 +1,6 @@
 ﻿using Calculator.UI;
 using DataAccessLayer.DTOs;
+using Service.Calculator;
 using Service.Calculator.Strategy;
 using Spectre.Console;
 
@@ -33,65 +34,98 @@ namespace Calculator.Edit
                     AnsiConsole.MarkupLine($"[aqua]\n  Ändrar [white]uträkning[/]. Ange nya värden.[/][red] 'exit' = Avbryt[/]\n");
                 }
 
-                if (!_strategyResolver.TryGetValue(calcDto.Operator, out var strategy))
+                // 1️⃣ Tal 1
+                string input1 = AnsiConsole.Ask<string>("\n[aqua]  Ange [white]Tal 1[/] och tryck 'Enter':[/]");
+                if (input1.Trim().ToLower() == "exit") return;
+
+                if (!double.TryParse(input1, out double number1))
                 {
-                    AnsiConsole.MarkupLine("[red]\n  Fel: Operatorstrategi saknas.[/]");
-                    AnsiConsole.MarkupLine("[grey]  Tryck valfri tangent för att återgå.[/]");
+                    AnsiConsole.MarkupLine("[red]\n  Fel: Du måste ange ett giltigt tal.[/]");
+                    AnsiConsole.MarkupLine("[grey]  Tryck valfri tangent för att försöka igen.[/]");
                     Console.ReadKey();
-                    return;
+                    continue;
                 }
 
-                var prompts = strategy.ParameterPrompts;
-                var parameters = new List<double>();
-                bool inputValid = true;
+                // 2️⃣ Operator
+                string operatorInput = AnsiConsole.Ask<string>("\n[aqua]  Ange [white]operator (+, -, *, /, √, %)[/] och tryck 'Enter':[/]");
+                if (operatorInput.Trim().ToLower() == "exit") return;
 
-                for (int i = 0; i < prompts.Length; i++)
+                if (!_strategyResolver.TryGetValue(operatorInput, out var strategy))
                 {
-                    string prompt = prompts[i];
+                    AnsiConsole.MarkupLine("[red]\n  Fel: Operatorstrategi saknas eller är ogiltig.[/]");
+                    AnsiConsole.MarkupLine("[grey]  Tryck valfri tangent för att försöka igen.[/]");
+                    Console.ReadKey();
+                    continue;
+                }
 
-                    string input = AnsiConsole.Ask<string>($"\n[aqua]  Ange [white]{prompt}[/] och tryck 'Enter':[/]");
+                var parameters = new List<double> { number1 };
 
-                    if (input.Trim().ToLower() == "exit")
-                        return;
+                // 3️⃣ Tal 2 om det behövs
+                if (strategy.ParameterPrompts.Length > 1)
+                {
+                    string input2 = AnsiConsole.Ask<string>($"\n[aqua]  Ange [white]{strategy.ParameterPrompts[1]}[/] och tryck 'Enter':[/]");
+                    if (input2.Trim().ToLower() == "exit") return;
 
-                    if (!double.TryParse(input, out double value))
+                    if (!double.TryParse(input2, out double number2))
                     {
                         AnsiConsole.MarkupLine("[red]\n  Fel: Du måste ange ett giltigt tal.[/]");
                         AnsiConsole.MarkupLine("[grey]  Tryck valfri tangent för att försöka igen.[/]");
                         Console.ReadKey();
-                        inputValid = false;
-                        break;
+                        continue;
                     }
 
-                    if (value <= 0)
-                    {
-                        AnsiConsole.MarkupLine("[red]\n  Fel: Värdet måste vara större än 0.[/]");
-                        AnsiConsole.MarkupLine("[grey]  Tryck valfri tangent för att försöka igen.[/]");
-                        Console.ReadKey();
-                        inputValid = false;
-                        break;
-                    }
-
-                    parameters.Add(value);
+                    parameters.Add(number2);
                 }
 
-                if (!inputValid)
+                // 4️⃣ Kontrollera negativa tal för √
+                if (operatorInput == "√" && number1 < 0)
                 {
+                    AnsiConsole.MarkupLine("[red]\n  Fel: Talet måste vara större än eller lika med 0 för att räkna ut roten ur.[/]");
+                    AnsiConsole.MarkupLine("[grey]  Tryck valfri tangent för att försöka igen.[/]");
+                    Console.ReadKey();
                     continue;
                 }
 
-                var result = Math.Round(strategy.Calculate(parameters.ToArray()), 2);
+                // 5️⃣ Beräkna resultatet och visa
+                double result;
+                try
+                {
+                    result = Math.Round(strategy.GetResult(parameters.ToArray()), 2);
+                }
+                catch (DivideByZeroException ex)
+                {
+                    AnsiConsole.MarkupLine($"[red]\n  Fel: {ex.Message}[/]");
+                    AnsiConsole.MarkupLine("[grey]  Tryck valfri tangent för att försöka igen.[/]");
+                    Console.ReadKey();
+                    continue;
+                }
+                catch (Exception ex)
+                {
+                    AnsiConsole.MarkupLine($"[red]\n  Fel: {ex.Message}[/]");
+                    AnsiConsole.MarkupLine("[grey]  Tryck valfri tangent för att försöka igen.[/]");
+                    Console.ReadKey();
+                    continue;
+                }
 
                 AnsiConsole.MarkupLine($"[aqua]\n  Resultat: {result} sparad.[/]");
                 AnsiConsole.MarkupLine($"[aqua]\n  Uträkning sparad.[/]");
                 AnsiConsole.MarkupLine($"[grey]\n  Tryck valfri tangent för att återgå till menyn.[/]");
 
-                _calcService.Save(calcDto, parameters.ToArray(), result, isNew);
+                // Spara DTO:n
+                calcDto.Number1 = number1;
+                calcDto.Number2 = parameters.Count > 1 ? parameters[1] : null;
+                calcDto.Operator = operatorInput;
+                calcDto.Result = result;
+                calcDto.PerformedAt = DateTime.Now;
+
+                Console.ReadKey();
+                //_calcService.Save(calcDto, parameters.ToArray(), result, isNew);
 
                 Console.ReadKey();
                 break;
             }
         }
+
 
         public void EditSelectedCalc(CalculatorOperationDto selected)
         {
@@ -113,7 +147,7 @@ namespace Calculator.Edit
                     AskForCalcParameters(selected, false);
                     break;
                 case "Ta bort":
-                    _calcService.DeleteCalc(selected);
+                    //_calcService.DeleteCalc(selected);
                     AnsiConsole.MarkupLine($"[green]\n  Uträkning borttagen.[/]\n  [grey]Tryck på någon knapp för att återgå.[/]");
                     Console.ReadKey();
                     break;

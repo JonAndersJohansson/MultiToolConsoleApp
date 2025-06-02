@@ -9,10 +9,8 @@
         {
             if (parameters.Length != 2)
                 throw new ArgumentException("Modulus kräver två parametrar.");
-
             if (parameters[1] == 0)
                 throw new DivideByZeroException("Modulus med noll är inte tillåtet.");
-
             return parameters[0] % parameters[1];
         }
     }
