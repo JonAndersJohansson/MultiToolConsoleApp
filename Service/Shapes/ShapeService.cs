@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.Models;
+﻿using DataAccessLayer.DTOs;
+using DataAccessLayer.Models;
 using DataAccessLayer.Repositories;
 
 namespace Service.Shapes
@@ -11,29 +12,42 @@ namespace Service.Shapes
         {
             _shapeRepo = shapeRepo;
         }
-        public void Save(ShapeCalculation shape, double[] parameters, double area, double perimeter, bool isCreateNewShape)
+        public void Save(ShapeCalculationDto shapeDto, double[] parameters, double area, double perimeter, bool isCreateNewShape)
         {
-            shape.Param1 = parameters.ElementAtOrDefault(0);
-            shape.Param2 = parameters.ElementAtOrDefault(1);
-            shape.Param3 = parameters.ElementAtOrDefault(2);
-            shape.Area = area;
-            shape.Perimeter = perimeter;
-            shape.CalculatedAt = DateTime.Now;
+            shapeDto.Param1 = parameters.ElementAtOrDefault(0);
+            shapeDto.Param2 = parameters.ElementAtOrDefault(1);
+            shapeDto.Param3 = parameters.ElementAtOrDefault(2);
+            shapeDto.Area = area;
+            shapeDto.Perimeter = perimeter;
+            shapeDto.CalculatedAt = DateTime.Now;
+
+            // Mappa DTO till Entitet
+            var shapeEntity = new ShapeCalculation
+            {
+                Id = shapeDto.Id, // Viktigt vid update
+                ShapeType = shapeDto.ShapeType,
+                Param1 = shapeDto.Param1,
+                Param2 = shapeDto.Param2,
+                Param3 = shapeDto.Param3,
+                Area = shapeDto.Area,
+                Perimeter = shapeDto.Perimeter,
+                CalculatedAt = shapeDto.CalculatedAt
+            };
 
             if (isCreateNewShape)
-                _shapeRepo.Add(shape);
+                _shapeRepo.Add(shapeEntity);
             else
-                _shapeRepo.Update(shape);
-
+                _shapeRepo.Update(shapeEntity);
         }
-        public List<ShapeCalculation> GetAllShapes()
+
+        public List<ShapeCalculationDto> GetAllShapes()
         {
             return _shapeRepo.GetAll().ToList();
         }
-        public void DeleteShape(ShapeCalculation selected)
+        public void DeleteShape(ShapeCalculationDto selected)
         {
             if (selected == null)
-                throw new ArgumentNullException(nameof(selected), "Selected shape cannot be null.");
+                throw new ArgumentNullException(nameof(selected), "Selected shapeDto cannot be null.");
             
             _shapeRepo.Delete(selected.Id);
         }

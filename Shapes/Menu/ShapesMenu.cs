@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.Models;
+﻿using DataAccessLayer.DTOs;
+using DataAccessLayer.Models;
 using Shapes.Edit;
 using Shapes.ReadAll;
 using Shapes.UI;
@@ -72,9 +73,9 @@ namespace Shapes.Menu
                     case "Parallellogram":
                     case "Romb":
                     case "Triangel":
-                        ShapeCalculation shape = new ShapeCalculation();
-                        shape.ShapeType = userInput;
-                        _editShape.AskForShapeParameters(shape, true);
+                        ShapeCalculationDto shapeDto = new ShapeCalculationDto();
+                        shapeDto.ShapeType = userInput;
+                        _editShape.AskForShapeParameters(shapeDto, true);
                         break;
                     case "[maroon]Tillbaka[/]":
                         return;

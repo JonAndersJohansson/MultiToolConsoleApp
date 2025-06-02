@@ -1,11 +1,11 @@
-﻿using DataAccessLayer.Models;
+﻿using DataAccessLayer.DTOs;
 
 namespace Service.Shapes
 {
     public interface IShapeService
     {
-        void DeleteShape(ShapeCalculation selected);
-        List<ShapeCalculation> GetAllShapes();
-        void Save(ShapeCalculation shape, double[] parameters, double area, double perimeter, bool isCreateNewShape);
+        void DeleteShape(ShapeCalculationDto selected);
+        List<ShapeCalculationDto> GetAllShapes();
+        void Save(ShapeCalculationDto shape, double[] parameters, double area, double perimeter, bool isCreateNewShape);
     }
 }

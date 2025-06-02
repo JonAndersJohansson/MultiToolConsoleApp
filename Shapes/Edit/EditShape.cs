@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.Models;
+﻿using DataAccessLayer.DTOs;
+using DataAccessLayer.Models;
 using Service.Shapes;
 using Service.Shapes.Strategy;
 using Shapes.UI;
@@ -15,7 +16,7 @@ namespace Shapes.Edit
             _strategyResolver = strategies.ToDictionary(s => s.ShapeType);
             _shapeService = shapeService;
         }
-        public void AskForShapeParameters(ShapeCalculation shape, bool isNewShape)
+        public void AskForShapeParameters(ShapeCalculationDto shapeDto, bool isNewShape)
         {
             bool isValidShape = true;
 
@@ -25,14 +26,14 @@ namespace Shapes.Edit
                 Graphics.RenderShapes();
 
                 if (isNewShape)
-                    AnsiConsole.MarkupLine($"[aqua]  Du har valt att skapa en [white]{shape.ShapeType}[/].[/][red] 'exit' = Avbryt[/]\n");
+                    AnsiConsole.MarkupLine($"[aqua]  Du har valt att skapa en [white]{shapeDto.ShapeType}[/].[/][red] 'exit' = Avbryt[/]\n");
                 else
                 {
-                    DisplayShapeProps(shape);
-                    AnsiConsole.MarkupLine($"[aqua]\n  Ändrar [white]{shape.ShapeType}[/]. Ange nya värden.[/][red] 'exit' = Avbryt[/]\n");
+                    DisplayShapeProps(shapeDto);
+                    AnsiConsole.MarkupLine($"[aqua]\n  Ändrar [white]{shapeDto.ShapeType}[/]. Ange nya värden.[/][red] 'exit' = Avbryt[/]\n");
                 }
 
-                var strategy = _strategyResolver[shape.ShapeType];
+                var strategy = _strategyResolver[shapeDto.ShapeType];
 
                 var prompts = strategy.ParameterPrompts;
                 var parameters = new List<double>();
@@ -82,18 +83,18 @@ namespace Shapes.Edit
                     continue;
                 }
 
-                AnsiConsole.MarkupLine($"[aqua]\n  {shape.ShapeType} sparad.[/]");
+                AnsiConsole.MarkupLine($"[aqua]\n  {shapeDto.ShapeType} sparad.[/]");
                 AnsiConsole.MarkupLine($"[green]  Area: {area}[/]");
                 AnsiConsole.MarkupLine($"[green]  Omkrets: {perimeter}[/]");
                 AnsiConsole.MarkupLine($"[gray]\n  Tryck valfri tangent för att återgå till menyn.[/]");
 
-                _shapeService.Save(shape, parameters.ToArray(), area, perimeter, isNewShape);
+                _shapeService.Save(shapeDto, parameters.ToArray(), area, perimeter, isNewShape);
 
                 Console.ReadKey();
                 break;
             }
         }
-        public void EditSelectedShape(ShapeCalculation selected)
+        public void EditSelectedShape(ShapeCalculationDto selected)
         {
             Console.Clear();
             Graphics.RenderShapes();
@@ -121,7 +122,7 @@ namespace Shapes.Edit
                     break;
             }
         }
-        private void DisplayShapeProps(ShapeCalculation selected)
+        private void DisplayShapeProps(ShapeCalculationDto selected)
         {
             var chosenShapeDisplay = string.Format("{0,-14} {1,8:0.00} {2,8:0.00} {3,14}", selected.ShapeType, selected.Area, selected.Perimeter, selected.CalculatedAt.ToShortDateString());
 

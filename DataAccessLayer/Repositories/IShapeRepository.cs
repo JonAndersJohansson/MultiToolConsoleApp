@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.Models;
+﻿using DataAccessLayer.DTOs;
+using DataAccessLayer.Models;
 
 namespace DataAccessLayer.Repositories
 {
@@ -6,7 +7,7 @@ namespace DataAccessLayer.Repositories
     {
         void Add(ShapeCalculation shape);
         void Delete(int id);
-        List<ShapeCalculation> GetAll();
+        List<ShapeCalculationDto> GetAll();
         void Update(ShapeCalculation shape);
     }
 }

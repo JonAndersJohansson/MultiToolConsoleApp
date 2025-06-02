@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer.Data;
+using DataAccessLayer.DTOs;
 using DataAccessLayer.Models;
 
 namespace DataAccessLayer.Repositories
@@ -22,19 +23,41 @@ namespace DataAccessLayer.Repositories
         }
         public void Update(ShapeCalculation shape)
         {
-            if (shape == null)
+            var existingShape = _dbContext.ShapeCalculations.Find(shape.Id);
+            if (existingShape == null)
             {
-                throw new ArgumentNullException(nameof(shape));
+                throw new KeyNotFoundException($"Shape with ID {shape.Id} not found.");
             }
-            _dbContext.ShapeCalculations.Update(shape);
+
+            // Uppdatera värden
+            existingShape.ShapeType = shape.ShapeType;
+            existingShape.Param1 = shape.Param1;
+            existingShape.Param2 = shape.Param2;
+            existingShape.Param3 = shape.Param3;
+            existingShape.Area = shape.Area;
+            existingShape.Perimeter = shape.Perimeter;
+            existingShape.CalculatedAt = shape.CalculatedAt;
+
             _dbContext.SaveChanges();
         }
-        public List<ShapeCalculation> GetAll()
+        public List<ShapeCalculationDto> GetAll()
         {
             return _dbContext.ShapeCalculations
                 .OrderByDescending(s => s.CalculatedAt)
+                .Select(s => new ShapeCalculationDto
+                {
+                    Id = s.Id,
+                    ShapeType = s.ShapeType,
+                    Param1 = s.Param1,
+                    Param2 = s.Param2,
+                    Param3 = s.Param3,
+                    Area = s.Area,
+                    Perimeter = s.Perimeter,
+                    CalculatedAt = s.CalculatedAt
+                })
                 .ToList();
         }
+
         public void Delete(int id)
         {
             var shape = _dbContext.ShapeCalculations.Find(id);
