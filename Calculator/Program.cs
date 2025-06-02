@@ -62,7 +62,7 @@ namespace Calculator
                 });
 
             Console.Clear();
-            menu.Show();
+            menu.CalculatorMainMenu();
         }
     }
 }

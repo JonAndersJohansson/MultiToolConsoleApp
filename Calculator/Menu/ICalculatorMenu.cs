@@ -2,6 +2,6 @@
 {
     public interface ICalculatorMenu
     {
-        void Show();
+        void CalculatorMainMenu();
     }
 }
