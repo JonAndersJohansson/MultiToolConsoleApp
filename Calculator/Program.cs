@@ -3,6 +3,7 @@ using Autofac.Extensions.DependencyInjection;
 using Calculator.Edit;
 using Calculator.Menu;
 using DataAccessLayer.Data;
+using DataAccessLayer.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -55,7 +56,7 @@ namespace Calculator
                             builder.RegisterType<MultiplicationStrategy>().As<ICalculatorStrategy>();
                             builder.RegisterType<SquareRootStrategy>().As<ICalculatorStrategy>();
                             builder.RegisterType<SubtractionStrategy>().As<ICalculatorStrategy>();
-                            //builder.RegisterType<CalculatorRepository>().As<ICalculatorRepository>().InstancePerLifetimeScope();
+                            builder.RegisterType<CalculatorRepository>().As<ICalculatorRepository>().InstancePerLifetimeScope();
                             builder.RegisterType<CalculatorService>().As<ICalculatorService>().InstancePerLifetimeScope();
                             builder.RegisterType<EditCalculation>().As<IEditCalculation>().InstancePerLifetimeScope();
                         })

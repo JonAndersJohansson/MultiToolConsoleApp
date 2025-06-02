@@ -107,9 +107,7 @@ namespace Calculator.Edit
                     continue;
                 }
 
-                AnsiConsole.MarkupLine($"[aqua]\n  Resultat: {result} sparad.[/]");
-                AnsiConsole.MarkupLine($"[aqua]\n  Uträkning sparad.[/]");
-                AnsiConsole.MarkupLine($"[grey]\n  Tryck valfri tangent för att återgå till menyn.[/]");
+                AnsiConsole.MarkupLine($"[aqua]\n  Resultat:[/][white] {result}[/]");
 
                 // Spara DTO:n
                 calcDto.Number1 = number1;
@@ -118,8 +116,10 @@ namespace Calculator.Edit
                 calcDto.Result = result;
                 calcDto.PerformedAt = DateTime.Now;
 
-                Console.ReadKey();
-                //_calcService.Save(calcDto, parameters.ToArray(), result, isNew);
+                _calcService.Save(calcDto, parameters.ToArray(), result, isNew);
+
+                AnsiConsole.MarkupLine($"[aqua]\n  Uträkning sparad.[/]");
+                AnsiConsole.MarkupLine($"[grey]\n  Tryck valfri tangent för att återgå till menyn.[/]");
 
                 Console.ReadKey();
                 break;

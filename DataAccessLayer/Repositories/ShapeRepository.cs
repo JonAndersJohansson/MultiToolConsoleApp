@@ -26,7 +26,7 @@ namespace DataAccessLayer.Repositories
             var existingShape = _dbContext.ShapeCalculations.Find(shape.Id);
             if (existingShape == null)
             {
-                throw new KeyNotFoundException($"Shape with ID {shape.Id} not found.");
+                throw new KeyNotFoundException($"Form med ID: {shape.Id} hittades inte.");
             }
 
             // Uppdatera värden
