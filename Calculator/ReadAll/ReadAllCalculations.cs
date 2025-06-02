@@ -18,7 +18,6 @@ namespace Calculator.ReadAll
         public void ShowAllCalculations()
         {
             int pageSize = 10;
-
             while (true)
             {
                 Console.Clear();
@@ -30,7 +29,12 @@ namespace Calculator.ReadAll
                 var formattedChoices = calcs
                     .Select(c => new
                     {
-                        Display = string.Format("{0,-14} {1,8:0.00} {2,8:0.00} {3,14}", c.Number1, c.Operator, c.Number2, c.PerformedAt.ToShortDateString()),
+                        Display = string.Format("{0,-10} {1,-10} {2,-10} {3,-12} {4,-12}",
+                                                c.Number1.HasValue ? c.Number1.Value.ToString("0.##") : "-",
+                                                c.Operator ?? "-",
+                                                c.Number2.HasValue ? c.Number2.Value.ToString("0.##") : "-",
+                                                c.Result.ToString("0.##"),
+                                                c.PerformedAt.ToShortDateString()),
                         Data = c
                     })
                     .ToList();
@@ -40,8 +44,10 @@ namespace Calculator.ReadAll
                     .Append("[red]Tillbaka[/]")
                     .ToList();
 
-                AnsiConsole.MarkupLine($"[bold aqua]  Tidigare uträkningar sorterad efter datum\n  Välj en uträkning (enter) för att [red]ta bort[/] eller [yellow]ändra[/][/]");
-                AnsiConsole.MarkupLine("\n[aqua][bold]  Uträkning          Tal1     Tal2    Resultat     Datum[/][/]");
+                AnsiConsole.MarkupLine($"[bold aqua]  Tidigare uträkningar sorterade efter datum[/]");
+                AnsiConsole.MarkupLine($"[bold aqua]  Välj en uträkning (enter) för att [red]ta bort[/] eller [yellow]ändra[/][/]");
+
+                AnsiConsole.MarkupLine("\n[aqua][bold]  Tal1       Op        Tal2     Resultat        Datum[/][/]");
 
                 var selectedDisplay = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()

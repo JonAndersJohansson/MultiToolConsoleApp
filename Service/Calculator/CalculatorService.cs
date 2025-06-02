@@ -19,10 +19,9 @@ namespace Service.Calculator
             calcDto.Result = result;
             calcDto.PerformedAt = DateTime.Now;
 
-            // Mappa DTO till Entitet
             var calcEntity = new CalculatorOperation
             {
-                Id = calcDto.Id, // Viktigt vid update
+                Id = calcDto.Id,
                 Number1 = calcDto.Number1,
                 Number2 = calcDto.Number2,
                 Operator = calcDto.Operator,

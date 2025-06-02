@@ -29,7 +29,6 @@ namespace DataAccessLayer.Repositories
                 throw new KeyNotFoundException($"Form med ID: {shape.Id} hittades inte.");
             }
 
-            // Uppdatera värden
             existingShape.ShapeType = shape.ShapeType;
             existingShape.Param1 = shape.Param1;
             existingShape.Param2 = shape.Param2;

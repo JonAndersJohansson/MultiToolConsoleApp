@@ -34,7 +34,6 @@ namespace Calculator.Edit
                     AnsiConsole.MarkupLine($"[aqua]\n  Ändrar [white]uträkning[/]. Ange nya värden.[/][red] 'exit' = Avbryt[/]\n");
                 }
 
-                // 1️⃣ Tal 1
                 string input1 = AnsiConsole.Ask<string>("\n[aqua]  Ange [white]Tal 1[/] och tryck 'Enter':[/]");
                 if (input1.Trim().ToLower() == "exit") return;
 
@@ -46,7 +45,6 @@ namespace Calculator.Edit
                     continue;
                 }
 
-                // 2️⃣ Operator
                 string operatorInput = AnsiConsole.Ask<string>("\n[aqua]  Ange [white]operator (+, -, *, /, √, %)[/] och tryck 'Enter':[/]");
                 if (operatorInput.Trim().ToLower() == "exit") return;
 
@@ -60,7 +58,6 @@ namespace Calculator.Edit
 
                 var parameters = new List<double> { number1 };
 
-                // 3️⃣ Tal 2 om det behövs
                 if (strategy.ParameterPrompts.Length > 1)
                 {
                     string input2 = AnsiConsole.Ask<string>($"\n[aqua]  Ange [white]{strategy.ParameterPrompts[1]}[/] och tryck 'Enter':[/]");
@@ -77,7 +74,6 @@ namespace Calculator.Edit
                     parameters.Add(number2);
                 }
 
-                // 4️⃣ Kontrollera negativa tal för √
                 if (operatorInput == "√" && number1 < 0)
                 {
                     AnsiConsole.MarkupLine("[red]\n  Fel: Talet måste vara större än eller lika med 0 för att räkna ut roten ur.[/]");
@@ -86,7 +82,6 @@ namespace Calculator.Edit
                     continue;
                 }
 
-                // 5️⃣ Beräkna resultatet och visa
                 double result;
                 try
                 {
@@ -109,7 +104,6 @@ namespace Calculator.Edit
 
                 AnsiConsole.MarkupLine($"[aqua]\n  Resultat:[/][white] {result}[/]");
 
-                // Spara DTO:n
                 calcDto.Number1 = number1;
                 calcDto.Number2 = parameters.Count > 1 ? parameters[1] : null;
                 calcDto.Operator = operatorInput;
@@ -125,7 +119,6 @@ namespace Calculator.Edit
                 break;
             }
         }
-
 
         public void EditSelectedCalc(CalculatorOperationDto selected)
         {
@@ -158,37 +151,15 @@ namespace Calculator.Edit
 
         private void DisplayCalcProps(CalculatorOperationDto selected)
         {
-            var chosenCalcDisplay = string.Format("{0,-14} {1,8} {2,8:0.00} {3,14}",
-                                                  selected.Number1,
-                                                  selected.Operator,
-                                                  selected.Number2,
-                                                  selected.Result);
+            var chosenCalcDisplay = string.Format("{0,-10} {1,-10} {2,-10} {3,-12} {4,-12}",
+                selected.Number1.HasValue ? selected.Number1.Value.ToString("0.##") : "-",
+                selected.Operator ?? "-",
+                selected.Number2.HasValue ? selected.Number2.Value.ToString("0.##") : "-",
+                selected.Result.ToString("0.##"),
+                selected.PerformedAt.ToShortDateString());
 
-            AnsiConsole.MarkupLine("\n[aqua][bold]  Uträkning         Nr1   Operation   Nr2     Resultat[/][/]");
+            AnsiConsole.MarkupLine("\n[aqua][bold]  Tal1       Op        Tal2     Resultat        Datum[/][/]");
             AnsiConsole.MarkupLine($"  {chosenCalcDisplay}\n");
-
-            if (_strategyResolver.TryGetValue(selected.Operator, out var strategy))
-            {
-                var prompts = strategy.ParameterPrompts;
-
-                for (int i = 0; i < prompts.Length; i++)
-                {
-                    string prompt = prompts[i];
-                    double? value = i switch
-                    {
-                        0 => selected.Number1,
-                        1 => selected.Number2,
-                        _ => null
-                    };
-
-                    if (value.HasValue)
-                        AnsiConsole.MarkupLine($"  [aqua]{prompt}:[/] {value:0.##}");
-                }
-            }
-            else
-            {
-                AnsiConsole.MarkupLine("[red]  Fel: Operatorstrategi saknas.[/]");
-            }
         }
     }
 }

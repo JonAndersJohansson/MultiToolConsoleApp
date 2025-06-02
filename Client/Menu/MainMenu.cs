@@ -48,7 +48,6 @@ namespace Client.Menu
             try
             {
                 var path = Path.Combine("..", "..", "..", "..", exeName.Replace(".exe", ""), "bin", "Debug", "net9.0", exeName);
-                //var path = Path.Combine("release", exeName);
 
                 if (!File.Exists(path))
                 {
@@ -58,7 +57,7 @@ namespace Client.Menu
                 }
 
                 var process = Process.Start(path);
-                process.WaitForExit(); // Vänta tills användaren stängt appen
+                process.WaitForExit();
             }
             catch (Exception ex)
             {
